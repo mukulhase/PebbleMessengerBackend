@@ -1,43 +1,43 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import {createContainer} from "meteor/react-meteor-data";
-import {pathFor, menuItemClass} from "/client/lib/router_utils";
-import {Loading} from "/client/pages/loading/loading.jsx";
-import {FacebookLogins} from "/lib/collections/facebook_logins.js";
-import * as formUtils from "/client/lib/form_utils";
-import * as objectUtils from "/lib/utils/object_utils";
-import * as dateUtils from "/lib/utils/date_utils";
-import * as stringUtils from "/lib/utils/string_utils";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {createContainer} from 'meteor/react-meteor-data';
+import {pathFor, menuItemClass} from '/client/lib/router_utils';
+import {Loading} from '/client/pages/loading/loading.jsx';
+import {FacebookLogins} from '/lib/collections/facebook_logins.js';
+import * as formUtils from '/client/lib/form_utils';
+import * as objectUtils from '/lib/utils/object_utils';
+import * as dateUtils from '/lib/utils/date_utils';
+import * as stringUtils from '/lib/utils/string_utils';
 
 
 export class HomePrivateInsertPage extends Component {
-	constructor () {
-		super();
-	}
+  constructor () {
+    super();
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
 
-		Meteor.defer(function() {
-			globalOnRendered();
-		});
-	}
+    Meteor.defer(function () {
+      globalOnRendered();
+    });
+  }
 
-	render() {
-		if(this.props.data.dataLoading) {
-			return (
+  render () {
+    if(this.props.data.dataLoading) {
+      return (
 	<Loading />
-);
-		} else {
-			return (
+      );
+    }
+    return (
 	<div>
 		<div className="page-container container" id="content">
 			<div className="row" id="title_row">
@@ -49,163 +49,163 @@ export class HomePrivateInsertPage extends Component {
 			<HomePrivateInsertPageForm data={this.props.data} routeParams={this.props.routeParams} />
 		</div>
 	</div>
-);
-		}
-	}
+    );
+
+  }
 }
 
-export const HomePrivateInsertPageContainer = createContainer(function(props) {
-		var isReady = function() {
-		
+export const HomePrivateInsertPageContainer = createContainer(function (props) {
+  var isReady = function () {
 
-		var subs = [
-			Meteor.subscribe("accounts_null")
-		];
-		var ready = true;
-		_.each(subs, function(sub) {
-			if(!sub.ready())
-				ready = false;
-		});
-		return ready;
-	};
 
-	var data = { dataLoading: true };
+    var subs = [
+      Meteor.subscribe('accounts_null'),
+    ];
+    var ready = true;
+    _.each(subs, function (sub) {
+      if(!sub.ready())        {ready = false;}
+    });
+    return ready;
+  };
 
-	if(isReady()) {
-		
+  var data = { dataLoading: true };
 
-		data = {
+  if(isReady()) {
 
-				accounts_null: FacebookLogins.findOne({_id:null}, {})
-			};
-		
 
-		
-	}
-	return { data: data };
+    data = {
+
+      accounts_null: FacebookLogins.findOne({_id: null}, {}),
+    };
+
+
+
+  }
+  return { data: data };
 
 }, HomePrivateInsertPage);
 export class HomePrivateInsertPageForm extends Component {
-	constructor () {
-		super();
-		this.state = {
-			homePrivateInsertPageFormErrorMessage: "",
-			homePrivateInsertPageFormInfoMessage: ""
-		};
+  constructor () {
+    super();
+    this.state = {
+      homePrivateInsertPageFormErrorMessage: '',
+      homePrivateInsertPageFormInfoMessage:  '',
+    };
 
-		this.renderErrorMessage = this.renderErrorMessage.bind(this);
-		this.renderInfoMessage = this.renderInfoMessage.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
-		this.onCancel = this.onCancel.bind(this);
-		this.onClose = this.onClose.bind(this);
-		this.onBack = this.onBack.bind(this);
-	}
+    this.renderErrorMessage = this.renderErrorMessage.bind(this);
+    this.renderInfoMessage = this.renderInfoMessage.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.onClose = this.onClose.bind(this);
+    this.onBack = this.onBack.bind(this);
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
 
-		$("select[data-role='tagsinput']").tagsinput();
-		$(".bootstrap-tagsinput").addClass("form-control");
-	}
+    $("select[data-role='tagsinput']").tagsinput();
+    $('.bootstrap-tagsinput').addClass('form-control');
+  }
 
-	renderErrorMessage() {
-		return(
+  renderErrorMessage () {
+    return(
 	<div className="alert alert-warning">
 		{this.state.homePrivateInsertPageFormErrorMessage}
 	</div>
-);
-	}
+    );
+  }
 
-	renderInfoMessage() {
-		return(
+  renderInfoMessage () {
+    return(
 	<div className="alert alert-success">
 		{this.state.homePrivateInsertPageFormInfoMessage}
 	</div>
-);
-	}
+    );
+  }
 
-	onSubmit(e) {
-		e.preventDefault();
-		this.setState({ homePrivateInsertPageFormInfoMessage: "" });
-		this.setState({ homePrivateInsertPageFormErrorMessage: "" });
+  onSubmit (e) {
+    e.preventDefault();
+    this.setState({ homePrivateInsertPageFormInfoMessage: '' });
+    this.setState({ homePrivateInsertPageFormErrorMessage: '' });
 
-		var self = this;
-		var $form = $(e.target);
+    var self = this;
+    var $form = $(e.target);
 
-		function submitAction(result, msg) {
-			var homePrivateInsertPageFormMode = "insert";
-			if(!$("#home-private-insert-page-form").find("#form-cancel-button").length) {
-				switch(homePrivateInsertPageFormMode) {
-					case "insert": {
-						$form[0].reset();
-					}; break;
+    function submitAction (result, msg) {
+      var homePrivateInsertPageFormMode = 'insert';
+      if(!$('#home-private-insert-page-form').find('#form-cancel-button').length) {
+        switch(homePrivateInsertPageFormMode) {
+          case 'insert': {
+            $form[0].reset();
+          }
+            break;
+          case 'update': {
+            var message = msg || 'Saved.';
+            self.setState({ homePrivateInsertPageFormInfoMessage: message });
+          }
+            break;
+        }
+      }
 
-					case "update": {
-						var message = msg || "Saved.";
-						self.setState({ homePrivateInsertPageFormInfoMessage: message });
-					}; break;
-				}
-			}
+      FlowRouter.go('home_private', objectUtils.mergeObjects(FlowRouter.current().params, {}));
+    }
 
-			FlowRouter.go("home_private", objectUtils.mergeObjects(FlowRouter.current().params, {}));
-		}
+    function errorAction (msg) {
+      msg = msg || '';
+      var message = msg.message || msg || 'Error.';
+      self.setState({ homePrivateInsertPageFormErrorMessage: message });
+    }
 
-		function errorAction(msg) {
-			msg = msg || "";
-			var message = msg.message || msg || "Error.";
-			self.setState({ homePrivateInsertPageFormErrorMessage: message });
-		}
-
-		formUtils.validateForm(
+    formUtils.validateForm(
 			$form,
-			function(fieldName, fieldValue) {
+			function (fieldName, fieldValue) {
 
-			},
-			function(msg) {
+},
+			function (msg) {
 
-			},
-			function(values) {
-				
+},
+			function (values) {
 
-				Meteor.call("facebookLoginsInsert", values, function(e, r) { if(e) errorAction(e); else submitAction(r); });
-			}
+
+  Meteor.call('facebookLoginsInsert', values, function (e, r) { if(e) errorAction(e); else submitAction(r); });
+}
 		);
 
-		return false;
-	}
+    return false;
+  }
 
-	onCancel(e) {
-		e.preventDefault();
-		self = this;
-		
+  onCancel (e) {
+    e.preventDefault();
+    self = this;
 
-		FlowRouter.go("home_private", objectUtils.mergeObjects(FlowRouter.current().params, {}));
-	}
 
-	onClose(e) {
-		e.preventDefault();
-		self = this;
+    FlowRouter.go('home_private', objectUtils.mergeObjects(FlowRouter.current().params, {}));
+  }
+
+  onClose (e) {
+    e.preventDefault();
+    self = this;
 
 		/*CLOSE_REDIRECT*/
-	}
+  }
 
-	onBack(e) {
-		e.preventDefault();
-		self = this;
+  onBack (e) {
+    e.preventDefault();
+    self = this;
 
 		/*BACK_REDIRECT*/
-	}
+  }
 
-	render() {
-		return (
+  render () {
+    return (
 	<div id="home-private-insert-page-form" className="">
 		<h2 id="component-title">
 			<span id="component-title-icon" className="">
@@ -258,6 +258,6 @@ export class HomePrivateInsertPageForm extends Component {
 			</div>
 		</form>
 	</div>
-);
-	}
+    );
+  }
 }

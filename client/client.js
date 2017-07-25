@@ -1,11 +1,11 @@
-this.globalOnRendered = function() {
-	
-	animateVisible();
+this.globalOnRendered = function () {
+
+  animateVisible();
 };
 
-Meteor.startup(function() {
-	
-	$(window).on("scroll resize", function() {
-		animateVisible();
-	});
+Meteor.startup(function () {
+
+  $(window).on('scroll resize', function () {
+    animateVisible();
+  });
 });

@@ -1,38 +1,38 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import {createContainer} from "meteor/react-meteor-data";
-import {pathFor, menuItemClass} from "/client/lib/router_utils";
-import {Loading} from "/client/pages/loading/loading.jsx";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {createContainer} from 'meteor/react-meteor-data';
+import {pathFor, menuItemClass} from '/client/lib/router_utils';
+import {Loading} from '/client/pages/loading/loading.jsx';
 
 
 export class HomePublicPage extends Component {
-	constructor () {
-		super();
-	}
+  constructor () {
+    super();
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
 
-		Meteor.defer(function() {
-			globalOnRendered();
-		});
-	}
+    Meteor.defer(function () {
+      globalOnRendered();
+    });
+  }
 
-	render() {
-		if(this.props.data.dataLoading) {
-			return (
+  render () {
+    if(this.props.data.dataLoading) {
+      return (
 	<Loading />
-);
-		} else {
-			return (
+      );
+    }
+    return (
 	<div>
 		<div className="page-container container" id="content">
 			<div className="row" id="title_row">
@@ -44,59 +44,58 @@ export class HomePublicPage extends Component {
 			<HomePublicPageHomeJumbotron data={this.props.data} routeParams={this.props.routeParams} />
 		</div>
 	</div>
-);
-		}
-	}
+    );
+
+  }
 }
 
-export const HomePublicPageContainer = createContainer(function(props) {
-		var isReady = function() {
-		
+export const HomePublicPageContainer = createContainer(function (props) {
+  var isReady = function () {
 
-		var subs = [
-		];
-		var ready = true;
-		_.each(subs, function(sub) {
-			if(!sub.ready())
-				ready = false;
-		});
-		return ready;
-	};
 
-	var data = { dataLoading: true };
+    var subs = [
+    ];
+    var ready = true;
+    _.each(subs, function (sub) {
+      if(!sub.ready())        {ready = false;}
+    });
+    return ready;
+  };
 
-	if(isReady()) {
-		
+  var data = { dataLoading: true };
 
-		data = {
+  if(isReady()) {
 
-			};
-		
 
-		
-	}
-	return { data: data };
+    data = {
+
+    };
+
+
+
+  }
+  return { data: data };
 
 }, HomePublicPage);
 export class HomePublicPageHomeJumbotron extends Component {
-	constructor () {
-		super();
-	}
+  constructor () {
+    super();
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
-	}
+  }
 
-	render() {
-		return (
+  render () {
+    return (
 	<div className="jumbotron ">
 		<div id="content" className="container">
 			<h1 id="component-title">
@@ -113,6 +112,6 @@ export class HomePublicPageHomeJumbotron extends Component {
 			</p>
 		</div>
 	</div>
-);
-	}
+    );
+  }
 }

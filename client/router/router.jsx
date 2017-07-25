@@ -1,789 +1,789 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import {mount, withOptions} from "react-mounter";
-import {LayoutContainer} from "/client/pages/layout/layout.jsx";
-import {NotFound} from "/client/pages/not_found/not_found.jsx";
-import {HomePublicPageContainer} from "/client/pages/home_public/home_public.jsx";
-import {LoginPageContainer} from "/client/pages/login/login.jsx";
-import {RegisterPageContainer} from "/client/pages/register/register.jsx";
-import {VerifyEmailPageContainer} from "/client/pages/verify_email/verify_email.jsx";
-import {ForgotPasswordPageContainer} from "/client/pages/forgot_password/forgot_password.jsx";
-import {ResetPasswordPageContainer} from "/client/pages/reset_password/reset_password.jsx";
-import {HomePrivatePageContainer} from "/client/pages/home_private/home_private.jsx";
-import {HomePrivateDetailsPageContainer} from "/client/pages/home_private/details/details.jsx";
-import {HomePrivateInsertPageContainer} from "/client/pages/home_private/insert/insert.jsx";
-import {HomePrivateUpdatePageContainer} from "/client/pages/home_private/update/update.jsx";
-import {AdminPageContainer} from "/client/pages/admin/admin.jsx";
-import {AdminUsersPageContainer} from "/client/pages/admin/users/users.jsx";
-import {AdminUsersDetailsPageContainer} from "/client/pages/admin/users/details/details.jsx";
-import {AdminUsersInsertPageContainer} from "/client/pages/admin/users/insert/insert.jsx";
-import {AdminUsersEditPageContainer} from "/client/pages/admin/users/edit/edit.jsx";
-import {UserSettingsPageContainer} from "/client/pages/user_settings/user_settings.jsx";
-import {UserSettingsProfilePageContainer} from "/client/pages/user_settings/profile/profile.jsx";
-import {UserSettingsChangePassPageContainer} from "/client/pages/user_settings/change_pass/change_pass.jsx";
-import {LogoutPageContainer} from "/client/pages/logout/logout.jsx";
-import {TokensPageContainer} from "/client/pages/tokens/tokens.jsx";
-import {TokensDetailsPageContainer} from "/client/pages/tokens/details/details.jsx";
-import {TokensInsertPageContainer} from "/client/pages/tokens/insert/insert.jsx";
-import {TokensUpdatePageContainer} from "/client/pages/tokens/update/update.jsx";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {mount, withOptions} from 'react-mounter';
+import {LayoutContainer} from '/client/pages/layout/layout.jsx';
+import {NotFound} from '/client/pages/not_found/not_found.jsx';
+import {HomePublicPageContainer} from '/client/pages/home_public/home_public.jsx';
+import {LoginPageContainer} from '/client/pages/login/login.jsx';
+import {RegisterPageContainer} from '/client/pages/register/register.jsx';
+import {VerifyEmailPageContainer} from '/client/pages/verify_email/verify_email.jsx';
+import {ForgotPasswordPageContainer} from '/client/pages/forgot_password/forgot_password.jsx';
+import {ResetPasswordPageContainer} from '/client/pages/reset_password/reset_password.jsx';
+import {HomePrivatePageContainer} from '/client/pages/home_private/home_private.jsx';
+import {HomePrivateDetailsPageContainer} from '/client/pages/home_private/details/details.jsx';
+import {HomePrivateInsertPageContainer} from '/client/pages/home_private/insert/insert.jsx';
+import {HomePrivateUpdatePageContainer} from '/client/pages/home_private/update/update.jsx';
+import {AdminPageContainer} from '/client/pages/admin/admin.jsx';
+import {AdminUsersPageContainer} from '/client/pages/admin/users/users.jsx';
+import {AdminUsersDetailsPageContainer} from '/client/pages/admin/users/details/details.jsx';
+import {AdminUsersInsertPageContainer} from '/client/pages/admin/users/insert/insert.jsx';
+import {AdminUsersEditPageContainer} from '/client/pages/admin/users/edit/edit.jsx';
+import {UserSettingsPageContainer} from '/client/pages/user_settings/user_settings.jsx';
+import {UserSettingsProfilePageContainer} from '/client/pages/user_settings/profile/profile.jsx';
+import {UserSettingsChangePassPageContainer} from '/client/pages/user_settings/change_pass/change_pass.jsx';
+import {LogoutPageContainer} from '/client/pages/logout/logout.jsx';
+import {TokensPageContainer} from '/client/pages/tokens/tokens.jsx';
+import {TokensDetailsPageContainer} from '/client/pages/tokens/details/details.jsx';
+import {TokensInsertPageContainer} from '/client/pages/tokens/insert/insert.jsx';
+import {TokensUpdatePageContainer} from '/client/pages/tokens/update/update.jsx';
 /*IMPORTS*/
 
 const reactMount = withOptions({
-	rootProps: {
-		className: "react-root"
-	}
+  rootProps: {
+    className: 'react-root',
+  },
 }, mount);
 
 // Wait user data to arrive
 FlowRouter.wait();
 
 // subscribe to user data
-var userDataSubscription = Meteor.subscribe("current_user_data");
+var userDataSubscription = Meteor.subscribe('current_user_data');
 
-Tracker.autorun(function() {
-	if(userDataSubscription.ready() && !FlowRouter._initialized) {
+Tracker.autorun(function () {
+  if(userDataSubscription.ready() && !FlowRouter._initialized) {
 		// user data arrived, start router
-		FlowRouter.initialize();
-	}
+    FlowRouter.initialize();
+  }
 });
 
 
-Tracker.autorun(function() {
-	var userId = Meteor.userId();
-	var user = Meteor.user();
-	if(userId && !user) {
-		return;
-	}
+Tracker.autorun(function () {
+  var userId = Meteor.userId();
+  var user = Meteor.user();
+  if(userId && !user) {
+    return;
+  }
 
-	var currentContext = FlowRouter.current();
-	var route = currentContext.route;
-	if(route) {
-		if(user) {
-			if(route.group.name == "public") {
-				FlowRouter.reload();
-			}
-		} else {
-			if(route.group.name == "private") {
-				FlowRouter.reload();
-			}
-		}
-	}
+  var currentContext = FlowRouter.current();
+  var route = currentContext.route;
+  if(route) {
+    if(user) {
+      if(route.group.name == 'public') {
+        FlowRouter.reload();
+      }
+    } else {
+      if(route.group.name == 'private') {
+        FlowRouter.reload();
+      }
+    }
+  }
 });
 
 const publicRouteNames = [
-	"home_public",
-	"login",
-	"register",
-	"verify_email",
-	"forgot_password",
-	"reset_password"
+  'home_public',
+  'login',
+  'register',
+  'verify_email',
+  'forgot_password',
+  'reset_password',
 ];
 
 const privateRouteNames = [
-	"home_private",
-	"home_private.details",
-	"home_private.insert",
-	"home_private.update",
-	"admin",
-	"admin.users",
-	"admin.users.details",
-	"admin.users.insert",
-	"admin.users.edit",
-	"user_settings",
-	"user_settings.profile",
-	"user_settings.change_pass",
-	"logout",
-	"tokens",
-	"tokens.details",
-	"tokens.insert",
-	"tokens.update"
+  'home_private',
+  'home_private.details',
+  'home_private.insert',
+  'home_private.update',
+  'admin',
+  'admin.users',
+  'admin.users.details',
+  'admin.users.insert',
+  'admin.users.edit',
+  'user_settings',
+  'user_settings.profile',
+  'user_settings.change_pass',
+  'logout',
+  'tokens',
+  'tokens.details',
+  'tokens.insert',
+  'tokens.update',
 ];
 
 const freeRouteNames = [
-	
+
 ];
 
 const roleMap = [
-	{ route: "admin",	roles: ["admin"] },
-	{ route: "admin.users",	roles: ["admin"] },
-	{ route: "admin.users.details",	roles: ["admin"] },
-	{ route: "admin.users.insert",	roles: ["admin"] },
-	{ route: "admin.users.edit",	roles: ["admin"] },
-	{ route: "user_settings",	roles: ["user","admin"] },
-	{ route: "user_settings.profile",	roles: ["user","admin"] },
-	{ route: "user_settings.change_pass",	roles: ["user","admin"] }
+	{ route: 'admin',	roles: ['admin'] },
+	{ route: 'admin.users',	roles: ['admin'] },
+	{ route: 'admin.users.details',	roles: ['admin'] },
+	{ route: 'admin.users.insert',	roles: ['admin'] },
+	{ route: 'admin.users.edit',	roles: ['admin'] },
+	{ route: 'user_settings',	roles: ['user', 'admin'] },
+	{ route: 'user_settings.profile',	roles: ['user', 'admin'] },
+	{ route: 'user_settings.change_pass',	roles: ['user', 'admin'] },
 ];
 
-const firstGrantedRoute = function(preferredRoute) {
-	if(preferredRoute && routeGranted(preferredRoute)) return preferredRoute;
+const firstGrantedRoute = function (preferredRoute) {
+  if(preferredRoute && routeGranted(preferredRoute)) return preferredRoute;
 
-	var grantedRoute = "";
+  var grantedRoute = '';
 
-	_.every(privateRouteNames, function(route) {
-		if(routeGranted(route)) {
-			grantedRoute = route;
-			return false;
-		}
-		return true;
-	});
-	if(grantedRoute) return grantedRoute;
+  _.every(privateRouteNames, function (route) {
+    if(routeGranted(route)) {
+      grantedRoute = route;
+      return false;
+    }
+    return true;
+  });
+  if(grantedRoute) return grantedRoute;
 
-	_.every(publicRouteNames, function(route) {
-		if(routeGranted(route)) {
-			grantedRoute = route;
-			return false;
-		}
-		return true;
-	});
-	if(grantedRoute) return grantedRoute;
+  _.every(publicRouteNames, function (route) {
+    if(routeGranted(route)) {
+      grantedRoute = route;
+      return false;
+    }
+    return true;
+  });
+  if(grantedRoute) return grantedRoute;
 
-	_.every(freeRouteNames, function(route) {
-		if(routeGranted(route)) {
-			grantedRoute = route;
-			return false;
-		}
-		return true;
-	});
-	if(grantedRoute) return grantedRoute;
+  _.every(freeRouteNames, function (route) {
+    if(routeGranted(route)) {
+      grantedRoute = route;
+      return false;
+    }
+    return true;
+  });
+  if(grantedRoute) return grantedRoute;
 
-	if(!grantedRoute) {
-		console.log("All routes are restricted for current user.");
-		return "notFound";
-	}
+  if(!grantedRoute) {
+    console.log('All routes are restricted for current user.');
+    return 'notFound';
+  }
 
-	return "";
+  return '';
 };
 
 // this function returns true if user is in role allowed to access given route
-export const routeGranted = function(routeName) {
-	if(!routeName) {
+export const routeGranted = function (routeName) {
+  if(!routeName) {
 		// route without name - enable access (?)
-		return true;
-	}
+    return true;
+  }
 
-	if(!roleMap || roleMap.length === 0) {
+  if(!roleMap || roleMap.length === 0) {
 		// this app doesn't have role map - enable access
-		return true;
-	}
+    return true;
+  }
 
-	var roleMapItem = _.find(roleMap, function(roleItem) { return roleItem.route == routeName; });
-	if(!roleMapItem) {
+  var roleMapItem = _.find(roleMap, function (roleItem) { return roleItem.route == routeName; });
+  if(!roleMapItem) {
 		// page is not restricted
-		return true;
-	}
+    return true;
+  }
 
 	// if user data not arrived yet, allow route - user will be redirected anyway after his data arrive
-	if(Meteor.userId() && !Meteor.user()) {
-		return true;
-	}
+  if(Meteor.userId() && !Meteor.user()) {
+    return true;
+  }
 
-	if(!Meteor.user() || !Meteor.user().roles) {
+  if(!Meteor.user() || !Meteor.user().roles) {
 		// user is not logged in or doesn't have "role" member
-		return false;
-	}
+    return false;
+  }
 
 	// this page is restricted to some role(s), check if user is in one of allowedRoles
-	var allowedRoles = roleMapItem.roles;
-	var granted = _.intersection(allowedRoles, Meteor.user().roles);
-	if(!granted || granted.length === 0) {
-		return false;
-	}
+  var allowedRoles = roleMapItem.roles;
+  var granted = _.intersection(allowedRoles, Meteor.user().roles);
+  if(!granted || granted.length === 0) {
+    return false;
+  }
 
-	return true;
+  return true;
 };
 
 
-FlowRouter.subscriptions = function() {
-	this.register("current_user_data", Meteor.subscribe("current_user_data"));
+FlowRouter.subscriptions = function () {
+  this.register('current_user_data', Meteor.subscribe('current_user_data'));
 };
 
 
 const freeRoutes = FlowRouter.group({
-	name: "free",
-	triggersEnter: [
-		function(context, redirect, stop) {
-			if(!routeGranted(context.route.name)) {
+  name:          'free',
+  triggersEnter: [
+    function (context, redirect, stop) {
+      if(!routeGranted(context.route.name)) {
 				// user is not in allowedRoles - redirect to first granted route
-				var redirectRoute = firstGrantedRoute("");
-				redirect(redirectRoute);
-			}
-		}
-	]
+        var redirectRoute = firstGrantedRoute('');
+        redirect(redirectRoute);
+      }
+    },
+  ],
 });
 
 const publicRoutes = FlowRouter.group({
-	name: "public",
-	triggersEnter: [
-		function(context, redirect, stop) {
-			if(Meteor.user()) {
-				var redirectRoute = firstGrantedRoute("home_private");
-				redirect(redirectRoute);
-			}
-		}
-	]
+  name:          'public',
+  triggersEnter: [
+    function (context, redirect, stop) {
+      if(Meteor.user()) {
+        var redirectRoute = firstGrantedRoute('home_private');
+        redirect(redirectRoute);
+      }
+    },
+  ],
 });
 
 const privateRoutes = FlowRouter.group({
-	name: "private",
-	triggersEnter: [
-		function(context, redirect, stop) {
-			if(!Meteor.user()) {
+  name:          'private',
+  triggersEnter: [
+    function (context, redirect, stop) {
+      if(!Meteor.user()) {
 				// user is not logged in - redirect to public home
-				var redirectRoute = firstGrantedRoute("home_public");
-				redirect(redirectRoute);
-			} else {
+        var redirectRoute = firstGrantedRoute('home_public');
+        redirect(redirectRoute);
+      } else {
 				// user is logged in - check role
-				if(!routeGranted(context.route.name)) {
+        if(!routeGranted(context.route.name)) {
 					// user is not in allowedRoles - redirect to first granted route
-					var redirectRoute = firstGrantedRoute("home_private");
-					redirect(redirectRoute);
-				}
-			}
-		}
-	]
+          var redirectRoute = firstGrantedRoute('home_private');
+          redirect(redirectRoute);
+        }
+      }
+    },
+  ],
 });
 
 FlowRouter.notFound = {
-	action () {
-		reactMount(LayoutContainer, {
-			content: (<NotFound />)
-		});
-	}
+  action () {
+    reactMount(LayoutContainer, {
+      content: (<NotFound />),
+    });
+  },
 };
 
-publicRoutes.route("/", {
-    name: "home_public",
+publicRoutes.route('/', {
+  name: 'home_public',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<HomePublicPageContainer routeParams={routeParams} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-publicRoutes.route("/login", {
-    name: "login",
+publicRoutes.route('/login', {
+  name: 'login',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<LoginPageContainer routeParams={routeParams} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-publicRoutes.route("/register", {
-    name: "register",
+publicRoutes.route('/register', {
+  name: 'register',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<RegisterPageContainer routeParams={routeParams} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-publicRoutes.route("/verify_email/:verifyEmailToken", {
-    name: "verify_email",
+publicRoutes.route('/verify_email/:verifyEmailToken', {
+  name: 'verify_email',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<VerifyEmailPageContainer routeParams={routeParams} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-publicRoutes.route("/forgot_password", {
-    name: "forgot_password",
+publicRoutes.route('/forgot_password', {
+  name: 'forgot_password',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<ForgotPasswordPageContainer routeParams={routeParams} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-publicRoutes.route("/reset_password/:resetPasswordToken", {
-    name: "reset_password",
+publicRoutes.route('/reset_password/:resetPasswordToken', {
+  name: 'reset_password',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<ResetPasswordPageContainer routeParams={routeParams} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-privateRoutes.route("/home_private", {
-    name: "home_private",
+privateRoutes.route('/home_private', {
+  name: 'home_private',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<HomePrivatePageContainer routeParams={routeParams} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-privateRoutes.route("/home_private/details/:accountId", {
-    name: "home_private.details",
+privateRoutes.route('/home_private/details/:accountId', {
+  name: 'home_private.details',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<HomePrivateDetailsPageContainer routeParams={routeParams} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-privateRoutes.route("/home_private/insert", {
-    name: "home_private.insert",
+privateRoutes.route('/home_private/insert', {
+  name: 'home_private.insert',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<HomePrivateInsertPageContainer routeParams={routeParams} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-privateRoutes.route("/home_private/update/:accountId", {
-    name: "home_private.update",
+privateRoutes.route('/home_private/update/:accountId', {
+  name: 'home_private.update',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<HomePrivateUpdatePageContainer routeParams={routeParams} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-privateRoutes.route("/admin", {
-    name: "admin",
+privateRoutes.route('/admin', {
+  name: 'admin',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			FlowRouter.withReplaceState(function() {
-				redirect("admin.users", context.params, context.queryParams);
-			});
+  triggersEnter: [
+    function (context, redirect, stop) {
+      FlowRouter.withReplaceState(function () {
+        redirect('admin.users', context.params, context.queryParams);
+      });
 
-		}
-	],
-    action: function(routeParams, routeQuery) {
-    	
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
+  action: function (routeParams, routeQuery) {
+
+  },
+  triggersExit: [
+    function (context, redirect) {
+
+    },
+  ],
 });
 
-privateRoutes.route("/admin/users", {
-    name: "admin.users",
+privateRoutes.route('/admin/users', {
+  name: 'admin.users',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<AdminPageContainer routeParams={routeParams} subcontent={
 					<AdminUsersPageContainer routeParams={routeParams} />
 				} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-privateRoutes.route("/admin/users/details/:userId", {
-    name: "admin.users.details",
+privateRoutes.route('/admin/users/details/:userId', {
+  name: 'admin.users.details',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<AdminPageContainer routeParams={routeParams} subcontent={
 					<AdminUsersDetailsPageContainer routeParams={routeParams} />
 				} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-privateRoutes.route("/admin/users/insert", {
-    name: "admin.users.insert",
+privateRoutes.route('/admin/users/insert', {
+  name: 'admin.users.insert',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<AdminPageContainer routeParams={routeParams} subcontent={
 					<AdminUsersInsertPageContainer routeParams={routeParams} />
 				} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-privateRoutes.route("/admin/users/edit/:userId", {
-    name: "admin.users.edit",
+privateRoutes.route('/admin/users/edit/:userId', {
+  name: 'admin.users.edit',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<AdminPageContainer routeParams={routeParams} subcontent={
 					<AdminUsersEditPageContainer routeParams={routeParams} />
 				} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-privateRoutes.route("/user_settings", {
-    name: "user_settings",
+privateRoutes.route('/user_settings', {
+  name: 'user_settings',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			FlowRouter.withReplaceState(function() {
-				redirect("user_settings.profile", context.params, context.queryParams);
-			});
+  triggersEnter: [
+    function (context, redirect, stop) {
+      FlowRouter.withReplaceState(function () {
+        redirect('user_settings.profile', context.params, context.queryParams);
+      });
 
-		}
-	],
-    action: function(routeParams, routeQuery) {
-    	
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
+  action: function (routeParams, routeQuery) {
+
+  },
+  triggersExit: [
+    function (context, redirect) {
+
+    },
+  ],
 });
 
-privateRoutes.route("/user_settings/profile", {
-    name: "user_settings.profile",
+privateRoutes.route('/user_settings/profile', {
+  name: 'user_settings.profile',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<UserSettingsPageContainer routeParams={routeParams} subcontent={
 					<UserSettingsProfilePageContainer routeParams={routeParams} />
 				} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-privateRoutes.route("/user_settings/change_pass", {
-    name: "user_settings.change_pass",
+privateRoutes.route('/user_settings/change_pass', {
+  name: 'user_settings.change_pass',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<UserSettingsPageContainer routeParams={routeParams} subcontent={
 					<UserSettingsChangePassPageContainer routeParams={routeParams} />
 				} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-privateRoutes.route("/logout", {
-    name: "logout",
+privateRoutes.route('/logout', {
+  name: 'logout',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<LogoutPageContainer routeParams={routeParams} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-privateRoutes.route("/tokens", {
-    name: "tokens",
+privateRoutes.route('/tokens', {
+  name: 'tokens',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<TokensPageContainer routeParams={routeParams} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-privateRoutes.route("/tokens/details/:tokenId", {
-    name: "tokens.details",
+privateRoutes.route('/tokens/details/:tokenId', {
+  name: 'tokens.details',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<TokensDetailsPageContainer routeParams={routeParams} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-privateRoutes.route("/tokens/insert", {
-    name: "tokens.insert",
+privateRoutes.route('/tokens/insert', {
+  name: 'tokens.insert',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
     	reactMount(LayoutContainer, {
-			content: (
+      content: (
 				<TokensInsertPageContainer routeParams={routeParams} />
-			)
-		});
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
 });
 
-privateRoutes.route("/tokens/update/:tokenId", {
-    name: "tokens.update",
+privateRoutes.route('/tokens/update/:tokenId', {
+  name: 'tokens.update',
 
-	triggersEnter: [
-		function(context, redirect, stop) {
-			
-		}
-	],
-    action: function(routeParams, routeQuery) {
-    	reactMount(LayoutContainer, {
-			content: (
-				<TokensUpdatePageContainer routeParams={routeParams} />
-			)
-		});
+  triggersEnter: [
+    function (context, redirect, stop) {
 
     },
-	triggersExit: [
-		function(context, redirect) {
-			
-		}
-	]
+  ],
+  action: function (routeParams, routeQuery) {
+    	reactMount(LayoutContainer, {
+      content: (
+				<TokensUpdatePageContainer routeParams={routeParams} />
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
+
+    },
+  ],
 });

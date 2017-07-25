@@ -1,109 +1,109 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import {createContainer} from "meteor/react-meteor-data";
-import {Meteor} from "meteor/meteor";
-import {pathFor, menuItemClass} from "/client/lib/router_utils";
-import {getFormData} from "/client/lib/form_utils";
-import {Loading} from "/client/pages/loading/loading.jsx";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {createContainer} from 'meteor/react-meteor-data';
+import {Meteor} from 'meteor/meteor';
+import {pathFor, menuItemClass} from '/client/lib/router_utils';
+import {getFormData} from '/client/lib/form_utils';
+import {Loading} from '/client/pages/loading/loading.jsx';
 
 
 export class UserSettingsChangePassPage extends Component {
-	constructor () {
-		super();
-		this.state = {
-			errorMessage: "",
-			infoMessage: ""
-		};
+  constructor () {
+    super();
+    this.state = {
+      errorMessage: '',
+      infoMessage:  '',
+    };
 
-		this.renderErrorMessage = this.renderErrorMessage.bind(this);
-		this.renderInfoMessage = this.renderInfoMessage.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
-	}
+    this.renderErrorMessage = this.renderErrorMessage.bind(this);
+    this.renderInfoMessage = this.renderInfoMessage.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
 
-		Meteor.defer(function() {
-			globalOnRendered();
-		});
-	}
+    Meteor.defer(function () {
+      globalOnRendered();
+    });
+  }
 
-	renderErrorMessage() {
-		return (
+  renderErrorMessage () {
+    return (
 	<div className="alert alert-warning">
 		{this.state.errorMessage}
 	</div>
-);
-	}
+    );
+  }
 
-	renderInfoMessage() {
-		return (
+  renderInfoMessage () {
+    return (
 	<div className="alert alert-success">
 		{this.state.infoMessage}
 	</div>
-);
-	}
+    );
+  }
 
-	onSubmit(e) {
-		e.preventDefault();
-		this.setState({ errorMessage: "", infoMessage: "" });
+  onSubmit (e) {
+    e.preventDefault();
+    this.setState({ errorMessage: '', infoMessage: '' });
 
-		let self = this;
+    let self = this;
 
-		let submitButton = $(e.target).find("button[type='submit']");
+    let submitButton = $(e.target).find("button[type='submit']");
 
-		getFormData(e.target, {
-			onSuccess: function(values) {
-				if(values.new_password != values.confirm_pass) {
-					self.setState({ errorMessage: "Your new password and confirm password doesn't match." });
-					$(e.target).find("#new_password").focus();
-					return false;
-				}
+    getFormData(e.target, {
+      onSuccess: function (values) {
+        if(values.new_password != values.confirm_pass) {
+          self.setState({ errorMessage: "Your new password and confirm password doesn't match." });
+          $(e.target).find('#new_password').focus();
+          return false;
+        }
 
-				submitButton.button("loading");
+        submitButton.button('loading');
 
-				Accounts.changePassword(values.old_password, values.new_password, function(err) {
-					submitButton.button("reset");
-					if (err) {
-						self.setState({ errorMessage: err.message });
-						return false;
-					} else {
-						self.setState({ errorMessage: "", infoMessage: "Your new password is set." });
-						$(e.target).find("#old-password").value = "";
-						$(e.target).find("#new-password").value = "";
-						$(e.target).find("#confirm-pass").value = "";
-						$(e.target).find("#old-password").focus();
-					}
-				});
-			},
-			onError: function(message) {
-				self.setState({ errorMessage: message });
-			},
-			fields: {
-				old_password: { required: true },
-				new_password: { required: true },
-				confirm_pass: { required: true }
-			}
-		});
+        Accounts.changePassword(values.old_password, values.new_password, function (err) {
+          submitButton.button('reset');
+          if (err) {
+            self.setState({ errorMessage: err.message });
+            return false;
+          }
+          self.setState({ errorMessage: '', infoMessage: 'Your new password is set.' });
+          $(e.target).find('#old-password').value = '';
+          $(e.target).find('#new-password').value = '';
+          $(e.target).find('#confirm-pass').value = '';
+          $(e.target).find('#old-password').focus();
 
-		return false;
-	}
+        });
+      },
+      onError: function (message) {
+        self.setState({ errorMessage: message });
+      },
+      fields: {
+        old_password: { required: true },
+        new_password: { required: true },
+        confirm_pass: { required: true },
+      },
+    });
 
-	render() {
-		if(this.props.data.dataLoading) {
-			return (
+    return false;
+  }
+
+  render () {
+    if(this.props.data.dataLoading) {
+      return (
 	<Loading />
-);
-		} else {
-			return (
+      );
+    }
+    return (
 	<div className="page-container container" id="content">
 		<div className="row">
 			<div className="col-xs-12 col-sm-9 col-lg-6">
@@ -129,37 +129,36 @@ export class UserSettingsChangePassPage extends Component {
 			</div>
 		</div>
 	</div>
-);
-		}
-	}
+    );
+
+  }
 }
 
-export const UserSettingsChangePassPageContainer = createContainer(function(props) {
-		var isReady = function() {
-		
+export const UserSettingsChangePassPageContainer = createContainer(function (props) {
+  var isReady = function () {
 
-		var subs = [
-		];
-		var ready = true;
-		_.each(subs, function(sub) {
-			if(!sub.ready())
-				ready = false;
-		});
-		return ready;
-	};
 
-	var data = { dataLoading: true };
+    var subs = [
+    ];
+    var ready = true;
+    _.each(subs, function (sub) {
+      if(!sub.ready())        {ready = false;}
+    });
+    return ready;
+  };
 
-	if(isReady()) {
-		
+  var data = { dataLoading: true };
 
-		data = {
+  if(isReady()) {
 
-			};
-		
 
-		
-	}
-	return { data: data };
+    data = {
+
+    };
+
+
+
+  }
+  return { data: data };
 
 }, UserSettingsChangePassPage);

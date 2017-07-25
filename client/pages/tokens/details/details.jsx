@@ -1,43 +1,43 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import {createContainer} from "meteor/react-meteor-data";
-import {pathFor, menuItemClass} from "/client/lib/router_utils";
-import {Loading} from "/client/pages/loading/loading.jsx";
-import {PebbleTokens} from "/lib/collections/pebble_tokens.js";
-import * as formUtils from "/client/lib/form_utils";
-import * as objectUtils from "/lib/utils/object_utils";
-import * as dateUtils from "/lib/utils/date_utils";
-import * as stringUtils from "/lib/utils/string_utils";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {createContainer} from 'meteor/react-meteor-data';
+import {pathFor, menuItemClass} from '/client/lib/router_utils';
+import {Loading} from '/client/pages/loading/loading.jsx';
+import {PebbleTokens} from '/lib/collections/pebble_tokens.js';
+import * as formUtils from '/client/lib/form_utils';
+import * as objectUtils from '/lib/utils/object_utils';
+import * as dateUtils from '/lib/utils/date_utils';
+import * as stringUtils from '/lib/utils/string_utils';
 
 
 export class TokensDetailsPage extends Component {
-	constructor () {
-		super();
-	}
+  constructor () {
+    super();
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
 
-		Meteor.defer(function() {
-			globalOnRendered();
-		});
-	}
+    Meteor.defer(function () {
+      globalOnRendered();
+    });
+  }
 
-	render() {
-		if(this.props.data.dataLoading) {
-			return (
+  render () {
+    if(this.props.data.dataLoading) {
+      return (
 	<Loading />
-);
-		} else {
-			return (
+      );
+    }
+    return (
 	<div>
 		<div className="page-container container" id="content">
 			<div className="row" id="title_row">
@@ -49,163 +49,163 @@ export class TokensDetailsPage extends Component {
 			<TokensDetailsPageForm data={this.props.data} routeParams={this.props.routeParams} />
 		</div>
 	</div>
-);
-		}
-	}
+    );
+
+  }
 }
 
-export const TokensDetailsPageContainer = createContainer(function(props) {
-		var isReady = function() {
-		
+export const TokensDetailsPageContainer = createContainer(function (props) {
+  var isReady = function () {
 
-		var subs = [
-			Meteor.subscribe("token", props.routeParams.tokenId)
-		];
-		var ready = true;
-		_.each(subs, function(sub) {
-			if(!sub.ready())
-				ready = false;
-		});
-		return ready;
-	};
 
-	var data = { dataLoading: true };
+    var subs = [
+      Meteor.subscribe('token', props.routeParams.tokenId),
+    ];
+    var ready = true;
+    _.each(subs, function (sub) {
+      if(!sub.ready())        {ready = false;}
+    });
+    return ready;
+  };
 
-	if(isReady()) {
-		
+  var data = { dataLoading: true };
 
-		data = {
+  if(isReady()) {
 
-				token: PebbleTokens.findOne({_id:props.routeParams.tokenId}, {})
-			};
-		
 
-		
-	}
-	return { data: data };
+    data = {
+
+      token: PebbleTokens.findOne({_id: props.routeParams.tokenId}, {}),
+    };
+
+
+
+  }
+  return { data: data };
 
 }, TokensDetailsPage);
 export class TokensDetailsPageForm extends Component {
-	constructor () {
-		super();
-		this.state = {
-			tokensDetailsPageFormErrorMessage: "",
-			tokensDetailsPageFormInfoMessage: ""
-		};
+  constructor () {
+    super();
+    this.state = {
+      tokensDetailsPageFormErrorMessage: '',
+      tokensDetailsPageFormInfoMessage:  '',
+    };
 
-		this.renderErrorMessage = this.renderErrorMessage.bind(this);
-		this.renderInfoMessage = this.renderInfoMessage.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
-		this.onCancel = this.onCancel.bind(this);
-		this.onClose = this.onClose.bind(this);
-		this.onBack = this.onBack.bind(this);
-	}
+    this.renderErrorMessage = this.renderErrorMessage.bind(this);
+    this.renderInfoMessage = this.renderInfoMessage.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.onClose = this.onClose.bind(this);
+    this.onBack = this.onBack.bind(this);
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
 
-		$("select[data-role='tagsinput']").tagsinput();
-		$(".bootstrap-tagsinput").addClass("form-control");
-	}
+    $("select[data-role='tagsinput']").tagsinput();
+    $('.bootstrap-tagsinput').addClass('form-control');
+  }
 
-	renderErrorMessage() {
-		return(
+  renderErrorMessage () {
+    return(
 	<div className="alert alert-warning">
 		{this.state.tokensDetailsPageFormErrorMessage}
 	</div>
-);
-	}
+    );
+  }
 
-	renderInfoMessage() {
-		return(
+  renderInfoMessage () {
+    return(
 	<div className="alert alert-success">
 		{this.state.tokensDetailsPageFormInfoMessage}
 	</div>
-);
-	}
+    );
+  }
 
-	onSubmit(e) {
-		e.preventDefault();
-		this.setState({ tokensDetailsPageFormInfoMessage: "" });
-		this.setState({ tokensDetailsPageFormErrorMessage: "" });
+  onSubmit (e) {
+    e.preventDefault();
+    this.setState({ tokensDetailsPageFormInfoMessage: '' });
+    this.setState({ tokensDetailsPageFormErrorMessage: '' });
 
-		var self = this;
-		var $form = $(e.target);
+    var self = this;
+    var $form = $(e.target);
 
-		function submitAction(result, msg) {
-			var tokensDetailsPageFormMode = "read_only";
-			if(!$("#tokens-details-page-form").find("#form-cancel-button").length) {
-				switch(tokensDetailsPageFormMode) {
-					case "insert": {
-						$form[0].reset();
-					}; break;
-
-					case "update": {
-						var message = msg || "Saved.";
-						self.setState({ tokensDetailsPageFormInfoMessage: message });
-					}; break;
-				}
-			}
+    function submitAction (result, msg) {
+      var tokensDetailsPageFormMode = 'read_only';
+      if(!$('#tokens-details-page-form').find('#form-cancel-button').length) {
+        switch(tokensDetailsPageFormMode) {
+          case 'insert': {
+            $form[0].reset();
+          }
+            break;
+          case 'update': {
+            var message = msg || 'Saved.';
+            self.setState({ tokensDetailsPageFormInfoMessage: message });
+          }
+            break;
+        }
+      }
 
 			/*SUBMIT_REDIRECT*/
-		}
+    }
 
-		function errorAction(msg) {
-			msg = msg || "";
-			var message = msg.message || msg || "Error.";
-			self.setState({ tokensDetailsPageFormErrorMessage: message });
-		}
+    function errorAction (msg) {
+      msg = msg || '';
+      var message = msg.message || msg || 'Error.';
+      self.setState({ tokensDetailsPageFormErrorMessage: message });
+    }
 
-		formUtils.validateForm(
+    formUtils.validateForm(
 			$form,
-			function(fieldName, fieldValue) {
+			function (fieldName, fieldValue) {
 
-			},
-			function(msg) {
+},
+			function (msg) {
 
-			},
-			function(values) {
-				
+},
+			function (values) {
 
-				
-			}
+
+
+}
 		);
 
-		return false;
-	}
+    return false;
+  }
 
-	onCancel(e) {
-		e.preventDefault();
-		self = this;
-		
+  onCancel (e) {
+    e.preventDefault();
+    self = this;
+
 
 		/*CANCEL_REDIRECT*/
-	}
+  }
 
-	onClose(e) {
-		e.preventDefault();
-		self = this;
+  onClose (e) {
+    e.preventDefault();
+    self = this;
 
-		FlowRouter.go("tokens", objectUtils.mergeObjects(FlowRouter.current().params, {}));
-	}
+    FlowRouter.go('tokens', objectUtils.mergeObjects(FlowRouter.current().params, {}));
+  }
 
-	onBack(e) {
-		e.preventDefault();
-		self = this;
+  onBack (e) {
+    e.preventDefault();
+    self = this;
 
-		FlowRouter.go("tokens", objectUtils.mergeObjects(FlowRouter.current().params, {}));
-	}
+    FlowRouter.go('tokens', objectUtils.mergeObjects(FlowRouter.current().params, {}));
+  }
 
-	render() {
-		return (
+  render () {
+    return (
 	<div id="tokens-details-page-form" className="">
 		<h2 id="component-title">
 			<a href="#" id="form-back-button" className="btn btn-default" title="back" onClick={this.onBack}>
@@ -228,6 +228,6 @@ export class TokensDetailsPageForm extends Component {
 			</div>
 		</form>
 	</div>
-);
-	}
+    );
+  }
 }

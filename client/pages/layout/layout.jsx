@@ -1,60 +1,60 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import {createContainer} from "meteor/react-meteor-data";
-import {pathFor, menuItemClass} from "/client/lib/router_utils";
-import {Loading} from "/client/pages/loading/loading.jsx";
-import {userEmail, userFullName} from "/client/lib/account_utils";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {createContainer} from 'meteor/react-meteor-data';
+import {pathFor, menuItemClass} from '/client/lib/router_utils';
+import {Loading} from '/client/pages/loading/loading.jsx';
+import {userEmail, userFullName} from '/client/lib/account_utils';
 
 
 export class Layout extends Component {
-	constructor () {
-		super();
-	}
+  constructor () {
+    super();
+  }
 
-	componentDidMount() {
-		$(document).on("click", function (e) {
-			var clickover = $(e.target).closest(".dropdown-toggle").length;
-			var opened = $(".navbar-collapse").hasClass("in");
-			if (opened === true && !clickover) {
-				$(".navbar-collapse").collapse("hide");
-			}
-		});
+  componentDidMount () {
+    $(document).on('click', function (e) {
+      var clickover = $(e.target).closest('.dropdown-toggle').length;
+      var opened = $('.navbar-collapse').hasClass('in');
+      if (opened === true && !clickover) {
+        $('.navbar-collapse').collapse('hide');
+      }
+    });
 
-		$(document).on("keydown", function (e) {
-			var opened = $(".navbar-collapse").hasClass("in");
-			if (opened === true) {
-				$(".navbar-collapse").collapse("hide");
-			}
-		});
-	}
+    $(document).on('keydown', function (e) {
+      var opened = $('.navbar-collapse').hasClass('in');
+      if (opened === true) {
+        $('.navbar-collapse').collapse('hide');
+      }
+    });
+  }
 
-	render() {
-		return this.props.data.currentUser ?
+  render () {
+    return this.props.data.currentUser ?
 	<PrivateLayoutContainer content={this.props.content} />
 :
-	<PublicLayoutContainer content={this.props.content} />
+	<PublicLayoutContainer content={this.props.content} />;
+  }
 }
-}
 
-export const LayoutContainer = createContainer(function(props) {
-	var data = {};
+export const LayoutContainer = createContainer(function (props) {
+  var data = {};
 
-	data.currentUser = Meteor.user();
+  data.currentUser = Meteor.user();
 
-	return { data: data };
+  return { data: data };
 }, Layout);
 export class PublicLayout extends Component {
-	constructor () {
-		super();
-	}
+  constructor () {
+    super();
+  }
 
-	render() {
-		if(this.props.data.dataLoading) {
-			return (
+  render () {
+    if(this.props.data.dataLoading) {
+      return (
 	<Loading />
-);
-		} else {
-			return (
+      );
+    }
+    return (
 	<div>
 		<div id="content" className="sticky-wrapper">
 			<div id="navbar" className="navbar navbar-fixed-top navbar-default" role="navigation">
@@ -92,59 +92,58 @@ export class PublicLayout extends Component {
 			</div>
 		</div>
 	</div>
-);
-		}
-	}
+    );
+
+  }
 }
 
-export const PublicLayoutContainer = createContainer(function(props) {
-		var isReady = function() {
-		
+export const PublicLayoutContainer = createContainer(function (props) {
+  var isReady = function () {
 
-		var subs = [
-		];
-		var ready = true;
-		_.each(subs, function(sub) {
-			if(!sub.ready())
-				ready = false;
-		});
-		return ready;
-	};
 
-	var data = { dataLoading: true };
+    var subs = [
+    ];
+    var ready = true;
+    _.each(subs, function (sub) {
+      if(!sub.ready())        {ready = false;}
+    });
+    return ready;
+  };
 
-	if(isReady()) {
-		
+  var data = { dataLoading: true };
 
-		data = {
+  if(isReady()) {
 
-			};
-		
 
-		
-	}
-	return { data: data };
+    data = {
+
+    };
+
+
+
+  }
+  return { data: data };
 
 }, PublicLayout);
 export class PublicLayoutLeftMenu extends Component {
-	constructor () {
-		super();
-	}
+  constructor () {
+    super();
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
-	}
+  }
 
-	render() {
-		return (
+  render () {
+    return (
 	<ul id="menu-items" className="nav navbar-nav">
 		<li id="menu-item-simple" className={menuItemClass('home_public')}>
 			<a href={pathFor('home_public', {})}>
@@ -154,28 +153,28 @@ export class PublicLayoutLeftMenu extends Component {
 			</a>
 		</li>
 	</ul>
-);
-	}
+    );
+  }
 }
 export class PublicLayoutRightMenu extends Component {
-	constructor () {
-		super();
-	}
+  constructor () {
+    super();
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
-	}
+  }
 
-	render() {
-		return (
+  render () {
+    return (
 	<ul id="menu-items" className="nav navbar-nav navbar-right">
 		<li id="menu-item-simple" className={menuItemClass('register')}>
 			<a href={pathFor('register', {})}>
@@ -192,21 +191,21 @@ export class PublicLayoutRightMenu extends Component {
 			</a>
 		</li>
 	</ul>
-);
-	}
+    );
+  }
 }
 export class PrivateLayout extends Component {
-	constructor () {
-		super();
-	}
+  constructor () {
+    super();
+  }
 
-	render() {
-		if(this.props.data.dataLoading) {
-			return (
+  render () {
+    if(this.props.data.dataLoading) {
+      return (
 	<Loading />
-);
-		} else {
-			return (
+      );
+    }
+    return (
 	<div>
 		<div id="content" className="sticky-wrapper">
 			<div id="navbar" className="navbar navbar-fixed-top navbar-default" role="navigation">
@@ -244,59 +243,58 @@ export class PrivateLayout extends Component {
 			</div>
 		</div>
 	</div>
-);
-		}
-	}
+    );
+
+  }
 }
 
-export const PrivateLayoutContainer = createContainer(function(props) {
-		var isReady = function() {
-		
+export const PrivateLayoutContainer = createContainer(function (props) {
+  var isReady = function () {
 
-		var subs = [
-		];
-		var ready = true;
-		_.each(subs, function(sub) {
-			if(!sub.ready())
-				ready = false;
-		});
-		return ready;
-	};
 
-	var data = { dataLoading: true };
+    var subs = [
+    ];
+    var ready = true;
+    _.each(subs, function (sub) {
+      if(!sub.ready())        {ready = false;}
+    });
+    return ready;
+  };
 
-	if(isReady()) {
-		
+  var data = { dataLoading: true };
 
-		data = {
+  if(isReady()) {
 
-			};
-		
 
-		
-	}
-	return { data: data };
+    data = {
+
+    };
+
+
+
+  }
+  return { data: data };
 
 }, PrivateLayout);
 export class PrivateLayoutLeftMenu extends Component {
-	constructor () {
-		super();
-	}
+  constructor () {
+    super();
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
-	}
+  }
 
-	render() {
-		return (
+  render () {
+    return (
 	<ul id="menu-items" className="nav navbar-nav">
 		<li id="menu-item-simple" className={menuItemClass('home_private')}>
 			<a href={pathFor('home_private', {})}>
@@ -308,28 +306,28 @@ export class PrivateLayoutLeftMenu extends Component {
 			</a>
 		</li>
 	</ul>
-);
-	}
+    );
+  }
 }
 export class PrivateLayoutRightMenu extends Component {
-	constructor () {
-		super();
-	}
+  constructor () {
+    super();
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
-	}
+  }
 
-	render() {
-		return (
+  render () {
+    return (
 	<ul id="menu-items" className="nav navbar-nav navbar-right">
 		<li id="menu-item-simple" className={menuItemClass('admin')}>
 			<a href={pathFor('admin', {})}>
@@ -368,6 +366,6 @@ export class PrivateLayoutRightMenu extends Component {
 			</ul>
 		</li>
 	</ul>
-);
-	}
+    );
+  }
 }

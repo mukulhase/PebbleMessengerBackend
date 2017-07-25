@@ -1,52 +1,52 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import {createContainer} from "meteor/react-meteor-data";
-import {pathFor, menuItemClass} from "/client/lib/router_utils";
-import {Loading} from "/client/pages/loading/loading.jsx";
-import {getFormData} from "/client/lib/form_utils";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {createContainer} from 'meteor/react-meteor-data';
+import {pathFor, menuItemClass} from '/client/lib/router_utils';
+import {Loading} from '/client/pages/loading/loading.jsx';
+import {getFormData} from '/client/lib/form_utils';
 
 
 export class ForgotPasswordPage extends Component {
-	constructor () {
-		super();
-		this.state = {
-			errorMessage: "",
-			resetPasswordSent: false
-		};
+  constructor () {
+    super();
+    this.state = {
+      errorMessage:      '',
+      resetPasswordSent: false,
+    };
 
-		this.renderErrorMessage = this.renderErrorMessage.bind(this);
-		this.renderInfo = this.renderInfo.bind(this);
-		this.renderForm = this.renderForm.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
+    this.renderErrorMessage = this.renderErrorMessage.bind(this);
+    this.renderInfo = this.renderInfo.bind(this);
+    this.renderForm = this.renderForm.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
 
-	}
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
 
-		Meteor.defer(function() {
-			globalOnRendered();
-		});
-	}
+    Meteor.defer(function () {
+      globalOnRendered();
+    });
+  }
 
-	renderErrorMessage() {
-		return (
+  renderErrorMessage () {
+    return (
 	<div className="alert alert-warning">
 		{this.state.errorMessage}
 	</div>
-);
-	}
+    );
+  }
 
-	renderInfo() {
-		return(
+  renderInfo () {
+    return(
 	<div className="accounts-info-box">
 		<h2>
 			Forgot password
@@ -58,11 +58,11 @@ export class ForgotPasswordPage extends Component {
 			OK
 		</a>
 	</div>
-);
-	}
+    );
+  }
 
-	renderForm() {
-		return(
+  renderForm () {
+    return(
 	<form id="forgot_password_form" className="account-form" role="form" onSubmit={this.onSubmit}>
 		<h2 className="account-form-heading">
 			Forgot password
@@ -78,84 +78,83 @@ export class ForgotPasswordPage extends Component {
 			Submit
 		</button>
 	</form>
-);
-	}
+    );
+  }
 
-	onSubmit(e) {
-		e.preventDefault();
-		this.setState({ errorMessage: "" });
+  onSubmit (e) {
+    e.preventDefault();
+    this.setState({ errorMessage: '' });
 
-		let self = this;
+    let self = this;
 
-		let submitButton = $(e.target).find("button[type='submit']");
+    let submitButton = $(e.target).find("button[type='submit']");
 
-		getFormData(e.target, {
-			onSuccess: function(values) {
-				submitButton.button("loading");
-				Accounts.forgotPassword({email: values.email}, function(err) {
-					submitButton.button("reset");
-					if (err) {
-						self.setState({ errorMessage: err.message });
-					} else {
-						self.setState({
-							errorMessage: "",
-							resetPasswordSent: true
-						});
-					}
-				});
-			},
-			onError: function(message) {
-				self.setState({ errorMessage: message });
-			},
-			fields: {
-				email: { type: "email", required: true }
-			}
-		});
+    getFormData(e.target, {
+      onSuccess: function (values) {
+        submitButton.button('loading');
+        Accounts.forgotPassword({email: values.email}, function (err) {
+          submitButton.button('reset');
+          if (err) {
+            self.setState({ errorMessage: err.message });
+          } else {
+            self.setState({
+              errorMessage:      '',
+              resetPasswordSent: true,
+            });
+          }
+        });
+      },
+      onError: function (message) {
+        self.setState({ errorMessage: message });
+      },
+      fields: {
+        email: { type: 'email', required: true },
+      },
+    });
 
-		return false;
-	}
+    return false;
+  }
 
-	render() {
-		if(this.props.data.dataLoading) {
-			return (
+  render () {
+    if(this.props.data.dataLoading) {
+      return (
 	<Loading />
-);
-		} else {
-			return (
+      );
+    }
+    return (
 	<div className="page-container container" id="content">
 		{this.state.resetPasswordSent ? this.renderInfo() : this.renderForm()}
 	</div>
-);
-		}
-	}
+    );
+
+  }
 }
 
-export const ForgotPasswordPageContainer = createContainer(function(props) {
-		var isReady = function() {
-		
+export const ForgotPasswordPageContainer = createContainer(function (props) {
+  var isReady = function () {
 
-		var subs = [
-		];
-		var ready = true;
-		_.each(subs, function(sub) {
-			if(!sub.ready())
-				ready = false;
-		});
-		return ready;
-	};
 
-	var data = { dataLoading: true };
+    var subs = [
+    ];
+    var ready = true;
+    _.each(subs, function (sub) {
+      if(!sub.ready())        {ready = false;}
+    });
+    return ready;
+  };
 
-	if(isReady()) {
-		
+  var data = { dataLoading: true };
 
-		data = {
+  if(isReady()) {
 
-			};
-		
 
-		
-	}
-	return { data: data };
+    data = {
+
+    };
+
+
+
+  }
+  return { data: data };
 
 }, ForgotPasswordPage);

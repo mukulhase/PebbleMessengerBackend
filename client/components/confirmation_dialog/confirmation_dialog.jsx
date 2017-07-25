@@ -1,6 +1,6 @@
-import ReactDOM from "react-dom";
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import ReactDOM from 'react-dom';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 /*
 	Function renders modal confirmation dialog. Dialog is inserted into DOM and removed on close.
@@ -39,11 +39,11 @@ import PropTypes from "prop-types";
 		payload: onYes, onNo and onCancel handler will be called with this argument. For example it can be _id of item to delete (or whatever)
 */
 
-export const ConfirmationDialog = function(options = {}) {
-	let wrapper = document.body.appendChild(document.createElement("div"));
-	let props = options || {};
-	props.wrapper = wrapper;
-	let component = ReactDOM.render(React.createElement(ConfirmationBox, props), wrapper);
+export const ConfirmationDialog = function (options = {}) {
+  let wrapper = document.body.appendChild(document.createElement('div'));
+  let props = options || {};
+  props.wrapper = wrapper;
+  let component = ReactDOM.render(React.createElement(ConfirmationBox, props), wrapper);
 };
 
 /*
@@ -78,48 +78,48 @@ export const ConfirmationDialog = function(options = {}) {
 */
 
 export class ConfirmationBox extends Component {
-	constructor () {
-		super();
-		this.state = {
-		};
+  constructor () {
+    super();
+    this.state = {
+    };
 
-		this.onYes = this.onYes.bind(this);
-		this.onNo = this.onNo.bind(this);
-		this.onCancel = this.onCancel.bind(this);
-	}
+    this.onYes = this.onYes.bind(this);
+    this.onNo = this.onNo.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+  }
 
-	componentDidMount() {
-		var self = this;
-		$(".modal").modal();
-		$(".modal").on("hidden.bs.modal", function (e) {
-			self.props.wrapper.remove();
-		});
-	}
+  componentDidMount () {
+    var self = this;
+    $('.modal').modal();
+    $('.modal').on('hidden.bs.modal', function (e) {
+      self.props.wrapper.remove();
+    });
+  }
 
-	onYes(e) {
-		if(this.props.onYes) {
-			this.props.onYes(this.props.payload);
-		}
-	}
+  onYes (e) {
+    if(this.props.onYes) {
+      this.props.onYes(this.props.payload);
+    }
+  }
 
-	onNo(e) {
-		if(this.props.onNo) {
-			this.props.onNo(this.props.payload);
-		}
-	}
+  onNo (e) {
+    if(this.props.onNo) {
+      this.props.onNo(this.props.payload);
+    }
+  }
 
-	onCancel(e) {
-		if(this.props.onCancel) {
-			this.props.onCancel(this.props.payload);
-		} else {
-			if(this.props.onNo) {
-				this.props.onNo(this.props.payload);
-			}
-		}
-	}
+  onCancel (e) {
+    if(this.props.onCancel) {
+      this.props.onCancel(this.props.payload);
+    } else {
+      if(this.props.onNo) {
+        this.props.onNo(this.props.payload);
+      }
+    }
+  }
 
-	render() {
-		return (
+  render () {
+    return (
 			<div className="modal" tabIndex="-1" role="dialog">
 				<div className="modal-dialog" role="document">
 					<div className="modal-content">
@@ -131,13 +131,13 @@ export class ConfirmationBox extends Component {
 							<p>{this.props.message}</p>
 						</div>
 						<div className="modal-footer">
-							<button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.onYes}>{this.props.buttonYesTitle || "Yes"}</button>
-							<button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.onNo}>{this.props.buttonNoTitle || "No"}</button>
-							{this.props.showCancelButton ? <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.onCancel}>{this.props.buttonCancelTitle || "Cancel"}</button> : null}
+							<button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.onYes}>{this.props.buttonYesTitle || 'Yes'}</button>
+							<button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.onNo}>{this.props.buttonNoTitle || 'No'}</button>
+							{this.props.showCancelButton ? <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.onCancel}>{this.props.buttonCancelTitle || 'Cancel'}</button> : null}
 						</div>
 					</div>
 				</div>
 			</div>
-		);
-	}
+    );
+  }
 }

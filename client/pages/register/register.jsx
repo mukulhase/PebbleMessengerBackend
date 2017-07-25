@@ -1,91 +1,91 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import {createContainer} from "meteor/react-meteor-data";
-import {Meteor} from "meteor/meteor";
-import {pathFor, menuItemClass} from "/client/lib/router_utils";
-import {getFormData} from "/client/lib/form_utils";
-import {Loading} from "/client/pages/loading/loading.jsx";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {createContainer} from 'meteor/react-meteor-data';
+import {Meteor} from 'meteor/meteor';
+import {pathFor, menuItemClass} from '/client/lib/router_utils';
+import {getFormData} from '/client/lib/form_utils';
+import {Loading} from '/client/pages/loading/loading.jsx';
 
 
 export class RegisterPage extends Component {
-	constructor () {
-		super();
-		this.state = {
-			verificationEmailSent: false,
-			errorMessage: ""
-		};
-		this.renderErrorMessage = this.renderErrorMessage.bind(this);
-		this.renderRegisterForm = this.renderRegisterForm.bind(this);
-		this.renderVerificationMailSent = this.renderVerificationMailSent.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
-	}
+  constructor () {
+    super();
+    this.state = {
+      verificationEmailSent: false,
+      errorMessage:          '',
+    };
+    this.renderErrorMessage = this.renderErrorMessage.bind(this);
+    this.renderRegisterForm = this.renderRegisterForm.bind(this);
+    this.renderVerificationMailSent = this.renderVerificationMailSent.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
 
-		Meteor.defer(function() {
-			globalOnRendered();
-		});
-	}
+    Meteor.defer(function () {
+      globalOnRendered();
+    });
+  }
 
-	renderErrorMessage() {
-		return (
+  renderErrorMessage () {
+    return (
 	<div className="alert alert-warning">
 		{this.state.errorMessage}
 	</div>
-);
-	}
+    );
+  }
 
-	onSubmit(e) {
-		e.preventDefault();
+  onSubmit (e) {
+    e.preventDefault();
 
-		this.setState({ errorMessage: "" });
+    this.setState({ errorMessage: '' });
 
-		let self = this;
+    let self = this;
 
-		let submitButton = $(e.target).find("button[type='submit']");
+    let submitButton = $(e.target).find("button[type='submit']");
 
-		getFormData(e.target, {
-			onSuccess: function(values) {
-				submitButton.button("loading");
+    getFormData(e.target, {
+      onSuccess: function (values) {
+        submitButton.button('loading');
 
-				Accounts.createUser({email: values.email, password : values.password, profile: { name: values.name }}, function(err) {
-					submitButton.button("reset");
-					if(err) {
-						if(err.error === 499) {
-							self.setState({ verificationEmailSent: true });
-						} else {
-							self.setState({ errorMessage: err.message });
-						}
-					} else {
-						self.setState({ errorMessage: "" });
-						self.setState({ verificationEmailSent: true });
-					}
-				});
-			},
-			onError: function(message) {
-				self.setState({ errorMessage: message });
-			},
-			fields: {
-				name: { required: true },
-				email: { type: "email", required: true },
-				password: { required: true }
-			}
-		});
+        Accounts.createUser({email: values.email, password: values.password, profile: { name: values.name }}, function (err) {
+          submitButton.button('reset');
+          if(err) {
+            if(err.error === 499) {
+              self.setState({ verificationEmailSent: true });
+            } else {
+              self.setState({ errorMessage: err.message });
+            }
+          } else {
+            self.setState({ errorMessage: '' });
+            self.setState({ verificationEmailSent: true });
+          }
+        });
+      },
+      onError: function (message) {
+        self.setState({ errorMessage: message });
+      },
+      fields: {
+        name:     { required: true },
+        email:    { type: 'email', required: true },
+        password: { required: true },
+      },
+    });
 
-		return false;
-	}
+    return false;
+  }
 
-	renderRegisterForm() {
-		return (
+  renderRegisterForm () {
+    return (
 	<form id="register_form" className="account-form" role="form" onSubmit={this.onSubmit}>
 		<h2>
 			Please sign up
@@ -104,11 +104,11 @@ export class RegisterPage extends Component {
 			</a>
 		</p>
 	</form>
-);
-	}
+    );
+  }
 
-	renderVerificationMailSent() {
-		return (
+  renderVerificationMailSent () {
+    return (
 	<div className="account-form">
 		<h2>
 			Thanks for signing up!
@@ -121,50 +121,49 @@ export class RegisterPage extends Component {
 			OK
 		</a>
 	</div>
-);
-	}
+    );
+  }
 
-	render() {
-		if(this.props.data.dataLoading) {
-			return (
+  render () {
+    if(this.props.data.dataLoading) {
+      return (
 	<Loading />
-);
-		} else {
-			return (
+      );
+    }
+    return (
 	<div className="page-container container" id="content">
 		{this.state.verificationEmailSent ? this.renderVerificationMailSent() : this.renderRegisterForm()}
 	</div>
-);
-		}
-	}
+    );
+
+  }
 }
 
-export const RegisterPageContainer = createContainer(function(props) {
-		var isReady = function() {
-		
+export const RegisterPageContainer = createContainer(function (props) {
+  var isReady = function () {
 
-		var subs = [
-		];
-		var ready = true;
-		_.each(subs, function(sub) {
-			if(!sub.ready())
-				ready = false;
-		});
-		return ready;
-	};
 
-	var data = { dataLoading: true };
+    var subs = [
+    ];
+    var ready = true;
+    _.each(subs, function (sub) {
+      if(!sub.ready())        {ready = false;}
+    });
+    return ready;
+  };
 
-	if(isReady()) {
-		
+  var data = { dataLoading: true };
 
-		data = {
+  if(isReady()) {
 
-			};
-		
 
-		
-	}
-	return { data: data };
+    data = {
+
+    };
+
+
+
+  }
+  return { data: data };
 
 }, RegisterPage);

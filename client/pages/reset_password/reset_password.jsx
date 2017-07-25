@@ -1,89 +1,89 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import {createContainer} from "meteor/react-meteor-data";
-import {pathFor, menuItemClass} from "/client/lib/router_utils";
-import {Loading} from "/client/pages/loading/loading.jsx";
-import {getFormData} from "/client/lib/form_utils";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {createContainer} from 'meteor/react-meteor-data';
+import {pathFor, menuItemClass} from '/client/lib/router_utils';
+import {Loading} from '/client/pages/loading/loading.jsx';
+import {getFormData} from '/client/lib/form_utils';
 
 
 export class ResetPasswordPage extends Component {
-	constructor () {
-		super();
-		this.state = {
-			errorMessage: ""
-		};
-		this.renderErrorMessage = this.renderErrorMessage.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
-	}
+  constructor () {
+    super();
+    this.state = {
+      errorMessage: '',
+    };
+    this.renderErrorMessage = this.renderErrorMessage.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
 
-		Meteor.defer(function() {
-			globalOnRendered();
-		});
-	}
+    Meteor.defer(function () {
+      globalOnRendered();
+    });
+  }
 
-	renderErrorMessage() {
-		return (
+  renderErrorMessage () {
+    return (
 	<div className="alert alert-warning">
 		{this.state.errorMessage}
 	</div>
-);
-	}
+    );
+  }
 
-	onSubmit(e) {
-		e.preventDefault();
+  onSubmit (e) {
+    e.preventDefault();
 
-		this.setState({ errorMessage: "" });
+    this.setState({ errorMessage: '' });
 
-		let self = this;
+    let self = this;
 
-		let submitButton = $(e.target).find("button[type='submit']");
+    let submitButton = $(e.target).find("button[type='submit']");
 
-		getFormData(e.target, {
-			onSuccess: function(values) {
-				if(values.newPassword != values.newPasswordConfirm) {
-					self.setState({ errorMessage: "Your password and confirm password doesn't match." });
-					return false;
-				}
+    getFormData(e.target, {
+      onSuccess: function (values) {
+        if(values.newPassword != values.newPasswordConfirm) {
+          self.setState({ errorMessage: "Your password and confirm password doesn't match." });
+          return false;
+        }
 
-				submitButton.button("loading");
-				Accounts.resetPassword(self.props.routeParams.resetPasswordToken, values.newPassword, function(err) {
-					submitButton.button("reset");
-					if(err) {
-						self.setState({ errorMessage: err.message });
-						return false;
-					}
-				});
-			},
-			onError: function(message) {
-				self.setState({ errorMessage: message });
-			},
-			fields: {
-				newPassword: { required: true },
-				newPasswordConfirm: { required: true }
-			}
-		});
+        submitButton.button('loading');
+        Accounts.resetPassword(self.props.routeParams.resetPasswordToken, values.newPassword, function (err) {
+          submitButton.button('reset');
+          if(err) {
+            self.setState({ errorMessage: err.message });
+            return false;
+          }
+        });
+      },
+      onError: function (message) {
+        self.setState({ errorMessage: message });
+      },
+      fields: {
+        newPassword:        { required: true },
+        newPasswordConfirm: { required: true },
+      },
+    });
 
-		return false;
-	}
+    return false;
+  }
 
-	render() {
-		if(this.props.data.dataLoading) {
-			return (
+  render () {
+    if(this.props.data.dataLoading) {
+      return (
 	<Loading />
-);
-		} else {
-			return (
+      );
+    }
+    return (
 	<div className="page-container container" id="content">
 		<form id="reset_password_form" className="account-form" role="form" onSubmit={this.onSubmit}>
 			<h2 className="account-form-heading">
@@ -97,37 +97,36 @@ export class ResetPasswordPage extends Component {
 			</button>
 		</form>
 	</div>
-);
-		}
-	}
+    );
+
+  }
 }
 
-export const ResetPasswordPageContainer = createContainer(function(props) {
-		var isReady = function() {
-		
+export const ResetPasswordPageContainer = createContainer(function (props) {
+  var isReady = function () {
 
-		var subs = [
-		];
-		var ready = true;
-		_.each(subs, function(sub) {
-			if(!sub.ready())
-				ready = false;
-		});
-		return ready;
-	};
 
-	var data = { dataLoading: true };
+    var subs = [
+    ];
+    var ready = true;
+    _.each(subs, function (sub) {
+      if(!sub.ready())        {ready = false;}
+    });
+    return ready;
+  };
 
-	if(isReady()) {
-		
+  var data = { dataLoading: true };
 
-		data = {
+  if(isReady()) {
 
-			};
-		
 
-		
-	}
-	return { data: data };
+    data = {
+
+    };
+
+
+
+  }
+  return { data: data };
 
 }, ResetPasswordPage);

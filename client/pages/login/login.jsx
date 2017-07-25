@@ -1,230 +1,230 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import {createContainer} from "meteor/react-meteor-data";
-import {Meteor} from "meteor/meteor";
-import {pathFor, menuItemClass} from "/client/lib/router_utils";
-import {getFormData} from "/client/lib/form_utils";
-import {Loading} from "/client/pages/loading/loading.jsx";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {createContainer} from 'meteor/react-meteor-data';
+import {Meteor} from 'meteor/meteor';
+import {pathFor, menuItemClass} from '/client/lib/router_utils';
+import {getFormData} from '/client/lib/form_utils';
+import {Loading} from '/client/pages/loading/loading.jsx';
 
 
 export class LoginPage extends Component {
-	constructor () {
-		super();
-		this.state = {
-			errorMessage: ""
-		};
-		this.renderErrorMessage = this.renderErrorMessage.bind(this);
-		this.onLoginWithGoogle = this.onLoginWithGoogle.bind(this);
-		this.onLoginWithGithub = this.onLoginWithGithub.bind(this);
-		this.onLoginWithLinkedin = this.onLoginWithLinkedin.bind(this);
-		this.onLoginWithFacebook = this.onLoginWithFacebook.bind(this);
-		this.onLoginWithTwitter = this.onLoginWithTwitter.bind(this);
-		this.onLoginWithMeteor = this.onLoginWithMeteor.bind(this);
-		this.onLoginWithPassword = this.onLoginWithPassword.bind(this);
-	}
+  constructor () {
+    super();
+    this.state = {
+      errorMessage: '',
+    };
+    this.renderErrorMessage = this.renderErrorMessage.bind(this);
+    this.onLoginWithGoogle = this.onLoginWithGoogle.bind(this);
+    this.onLoginWithGithub = this.onLoginWithGithub.bind(this);
+    this.onLoginWithLinkedin = this.onLoginWithLinkedin.bind(this);
+    this.onLoginWithFacebook = this.onLoginWithFacebook.bind(this);
+    this.onLoginWithTwitter = this.onLoginWithTwitter.bind(this);
+    this.onLoginWithMeteor = this.onLoginWithMeteor.bind(this);
+    this.onLoginWithPassword = this.onLoginWithPassword.bind(this);
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
 
-		Meteor.defer(function() {
-			globalOnRendered();
-		});
-	}
+    Meteor.defer(function () {
+      globalOnRendered();
+    });
+  }
 
-	renderErrorMessage() {
-		return (
+  renderErrorMessage () {
+    return (
 	<div className="alert alert-warning">
 		{this.state.errorMessage}
 	</div>
-);
-	}
+    );
+  }
 
-	onLoginWithGoogle(e) {
-		e.preventDefault();
-		this.setState({ errorMessage: "" });
+  onLoginWithGoogle (e) {
+    e.preventDefault();
+    this.setState({ errorMessage: '' });
 
-		let self = this;
+    let self = this;
 
-		var button = $(e.currentTarget);
-		button.button("loading");
+    var button = $(e.currentTarget);
+    button.button('loading');
 
-		Meteor.loginWithGoogle(
-			{
-				requestPermissions: ["email"]
-			},
-			function(err) {
-				button.button("reset");
-				if(err) {
-					self.setState({ errorMessage: err.message });
-					return false;
-				}
-			}
+    Meteor.loginWithGoogle(
+      {
+        requestPermissions: ['email'],
+      },
+			function (err) {
+  button.button('reset');
+  if(err) {
+    self.setState({ errorMessage: err.message });
+    return false;
+  }
+}
 		);
 
-		return false;
-	}
+    return false;
+  }
 
-	onLoginWithGithub(e) {
-		e.preventDefault();
-		this.setState({ errorMessage: "" });
+  onLoginWithGithub (e) {
+    e.preventDefault();
+    this.setState({ errorMessage: '' });
 
-		let self = this;
+    let self = this;
 
-		var button = $(e.currentTarget);
-		button.button("loading");
+    var button = $(e.currentTarget);
+    button.button('loading');
 
-		Meteor.loginWithGithub(
-			{
-				requestPermissions: ["public_repo", "user:email"]
-			},
-			function(err) {
-				button.button("reset");
-				if(err) {
-					self.setState({ errorMessage: err.message });
-					return false;
-				}
-			}
+    Meteor.loginWithGithub(
+      {
+        requestPermissions: ['public_repo', 'user:email'],
+      },
+			function (err) {
+  button.button('reset');
+  if(err) {
+    self.setState({ errorMessage: err.message });
+    return false;
+  }
+}
 		);
 
-		return false;
-	}
+    return false;
+  }
 
-	onLoginWithLinkedin(e) {
-		e.preventDefault();
-		this.setState({ errorMessage: "" });
+  onLoginWithLinkedin (e) {
+    e.preventDefault();
+    this.setState({ errorMessage: '' });
 
-		let self = this;
+    let self = this;
 
-		var button = $(e.currentTarget);
-		button.button("loading");
+    var button = $(e.currentTarget);
+    button.button('loading');
 
-		Meteor.loginWithLinkedIn({
-				requestPermissions: ["r_basicprofile", "r_emailaddress"]
-		},
-		function(err) {
-			button.button("reset");
-			if(err) {
-				self.setState({ errorMessage: err.message });
-				return false;
-			}
-		});
-		return false;
-	}
+    Meteor.loginWithLinkedIn({
+      requestPermissions: ['r_basicprofile', 'r_emailaddress'],
+    },
+		function (err) {
+  button.button('reset');
+  if(err) {
+    self.setState({ errorMessage: err.message });
+    return false;
+  }
+});
+    return false;
+  }
 
-	onLoginWithFacebook(e) {
-		e.preventDefault();
-		this.setState({ errorMessage: "" });
+  onLoginWithFacebook (e) {
+    e.preventDefault();
+    this.setState({ errorMessage: '' });
 
-		let self = this;
+    let self = this;
 
-		var button = $(e.currentTarget);
-		button.button("loading");
+    var button = $(e.currentTarget);
+    button.button('loading');
 
-		Meteor.loginWithFacebook({
-			requestPermissions: ["email"]
-		},
-		function(err) {
-			button.button("reset");
-			if(err) {
-				self.setState({ errorMessage: err.message });
-				return false;
-			}
-		});
-		return false;
-	}
+    Meteor.loginWithFacebook({
+      requestPermissions: ['email'],
+    },
+		function (err) {
+  button.button('reset');
+  if(err) {
+    self.setState({ errorMessage: err.message });
+    return false;
+  }
+});
+    return false;
+  }
 
-	onLoginWithTwitter(e) {
-		e.preventDefault();
-		this.setState({ errorMessage: "" });
+  onLoginWithTwitter (e) {
+    e.preventDefault();
+    this.setState({ errorMessage: '' });
 
-		let self = this;
+    let self = this;
 
-		var button = $(e.currentTarget);
-		button.button("loading");
+    var button = $(e.currentTarget);
+    button.button('loading');
 
-		Meteor.loginWithTwitter({
-			requestPermissions: ["email"]
-		},
-		function(err) {
-			button.button("reset");
-			if(err) {
-				self.setState({ errorMessage: err.message });
-				return false;
-			}
-		});
+    Meteor.loginWithTwitter({
+      requestPermissions: ['email'],
+    },
+		function (err) {
+  button.button('reset');
+  if(err) {
+    self.setState({ errorMessage: err.message });
+    return false;
+  }
+});
 
-		return false;
-	}
+    return false;
+  }
 
-	onLoginWithMeteor(e) {
-		e.preventDefault();
-		this.setState({ errorMessage: "" });
+  onLoginWithMeteor (e) {
+    e.preventDefault();
+    this.setState({ errorMessage: '' });
 
-		let self = this;
+    let self = this;
 
-		var button = $(e.currentTarget);
-		button.button("loading");
+    var button = $(e.currentTarget);
+    button.button('loading');
 
-		Meteor.loginWithMeteorDeveloperAccount({
-			requestPermissions: ["email"]
-		},
-		function(err) {
-			button.button("reset");
-			if(err) {
-				self.setState({ errorMessage: err.message });
-				return false;
-			}
-		});
+    Meteor.loginWithMeteorDeveloperAccount({
+      requestPermissions: ['email'],
+    },
+		function (err) {
+  button.button('reset');
+  if(err) {
+    self.setState({ errorMessage: err.message });
+    return false;
+  }
+});
 
-		return false;
-	}
+    return false;
+  }
 
-	onLoginWithPassword(e) {
-		e.preventDefault();
-		this.setState({ errorMessage: "" });
+  onLoginWithPassword (e) {
+    e.preventDefault();
+    this.setState({ errorMessage: '' });
 
-		let self = this;
+    let self = this;
 
-		let submitButton = $(e.target).find("button[type='submit']");
+    let submitButton = $(e.target).find("button[type='submit']");
 
-		getFormData(e.target, {
-			onSuccess: function(values) {
-				submitButton.button("loading");
-				Meteor.loginWithPassword(values.email, values.password, function(err) {
-					submitButton.button("reset");
-					if(err) {
-						self.setState({ errorMessage: err.message });
-						return false;
-					}
-				});
-			},
-			onError: function(message) {
-				self.setState({ errorMessage: message });
-			},
-			fields: {
-				email: { type: "email", required: true },
-				password: { required: true }
-			}
-		});
+    getFormData(e.target, {
+      onSuccess: function (values) {
+        submitButton.button('loading');
+        Meteor.loginWithPassword(values.email, values.password, function (err) {
+          submitButton.button('reset');
+          if(err) {
+            self.setState({ errorMessage: err.message });
+            return false;
+          }
+        });
+      },
+      onError: function (message) {
+        self.setState({ errorMessage: message });
+      },
+      fields: {
+        email:    { type: 'email', required: true },
+        password: { required: true },
+      },
+    });
 
-		return false;
-	}
+    return false;
+  }
 
-	render() {
-		if(this.props.data.dataLoading) {
-			return (
+  render () {
+    if(this.props.data.dataLoading) {
+      return (
 	<Loading />
-);
-		} else {
-			return (
+      );
+    }
+    return (
 	<div className="page-container container" id="content">
 		<form id="login_form" className="account-form" role="form" onSubmit={this.onLoginWithPassword}>
 			<h2>
@@ -262,37 +262,36 @@ export class LoginPage extends Component {
 			</div>
 		</form>
 	</div>
-);
-		}
-	}
+    );
+
+  }
 }
 
-export const LoginPageContainer = createContainer(function(props) {
-		var isReady = function() {
-		
+export const LoginPageContainer = createContainer(function (props) {
+  var isReady = function () {
 
-		var subs = [
-		];
-		var ready = true;
-		_.each(subs, function(sub) {
-			if(!sub.ready())
-				ready = false;
-		});
-		return ready;
-	};
 
-	var data = { dataLoading: true };
+    var subs = [
+    ];
+    var ready = true;
+    _.each(subs, function (sub) {
+      if(!sub.ready())        {ready = false;}
+    });
+    return ready;
+  };
 
-	if(isReady()) {
-		
+  var data = { dataLoading: true };
 
-		data = {
+  if(isReady()) {
 
-			};
-		
 
-		
-	}
-	return { data: data };
+    data = {
+
+    };
+
+
+
+  }
+  return { data: data };
 
 }, LoginPage);

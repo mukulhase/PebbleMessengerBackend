@@ -1,43 +1,43 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import {createContainer} from "meteor/react-meteor-data";
-import {pathFor, menuItemClass} from "/client/lib/router_utils";
-import {Loading} from "/client/pages/loading/loading.jsx";
-import {Users} from "meteor-user-roles";
-import * as formUtils from "/client/lib/form_utils";
-import * as objectUtils from "/lib/utils/object_utils";
-import * as dateUtils from "/lib/utils/date_utils";
-import * as stringUtils from "/lib/utils/string_utils";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {createContainer} from 'meteor/react-meteor-data';
+import {pathFor, menuItemClass} from '/client/lib/router_utils';
+import {Loading} from '/client/pages/loading/loading.jsx';
+import {Users} from 'meteor-user-roles';
+import * as formUtils from '/client/lib/form_utils';
+import * as objectUtils from '/lib/utils/object_utils';
+import * as dateUtils from '/lib/utils/date_utils';
+import * as stringUtils from '/lib/utils/string_utils';
 
 
 export class AdminUsersEditPage extends Component {
-	constructor () {
-		super();
-	}
+  constructor () {
+    super();
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
 
-		Meteor.defer(function() {
-			globalOnRendered();
-		});
-	}
+    Meteor.defer(function () {
+      globalOnRendered();
+    });
+  }
 
-	render() {
-		if(this.props.data.dataLoading) {
-			return (
+  render () {
+    if(this.props.data.dataLoading) {
+      return (
 	<Loading />
-);
-		} else {
-			return (
+      );
+    }
+    return (
 	<div>
 		<div className="page-container container" id="content">
 			<div className="row" id="title_row">
@@ -49,163 +49,163 @@ export class AdminUsersEditPage extends Component {
 			<AdminUsersEditPageEditForm data={this.props.data} routeParams={this.props.routeParams} />
 		</div>
 	</div>
-);
-		}
-	}
+    );
+
+  }
 }
 
-export const AdminUsersEditPageContainer = createContainer(function(props) {
-		var isReady = function() {
-		
+export const AdminUsersEditPageContainer = createContainer(function (props) {
+  var isReady = function () {
 
-		var subs = [
-			Meteor.subscribe("admin_user", props.routeParams.userId)
-		];
-		var ready = true;
-		_.each(subs, function(sub) {
-			if(!sub.ready())
-				ready = false;
-		});
-		return ready;
-	};
 
-	var data = { dataLoading: true };
+    var subs = [
+      Meteor.subscribe('admin_user', props.routeParams.userId),
+    ];
+    var ready = true;
+    _.each(subs, function (sub) {
+      if(!sub.ready())        {ready = false;}
+    });
+    return ready;
+  };
 
-	if(isReady()) {
-		
+  var data = { dataLoading: true };
 
-		data = {
+  if(isReady()) {
 
-				admin_user: Users.findOne({_id:props.routeParams.userId}, {})
-			};
-		
 
-		
-	}
-	return { data: data };
+    data = {
+
+      admin_user: Users.findOne({_id: props.routeParams.userId}, {}),
+    };
+
+
+
+  }
+  return { data: data };
 
 }, AdminUsersEditPage);
 export class AdminUsersEditPageEditForm extends Component {
-	constructor () {
-		super();
-		this.state = {
-			adminUsersEditPageEditFormErrorMessage: "",
-			adminUsersEditPageEditFormInfoMessage: ""
-		};
+  constructor () {
+    super();
+    this.state = {
+      adminUsersEditPageEditFormErrorMessage: '',
+      adminUsersEditPageEditFormInfoMessage:  '',
+    };
 
-		this.renderErrorMessage = this.renderErrorMessage.bind(this);
-		this.renderInfoMessage = this.renderInfoMessage.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
-		this.onCancel = this.onCancel.bind(this);
-		this.onClose = this.onClose.bind(this);
-		this.onBack = this.onBack.bind(this);
-	}
+    this.renderErrorMessage = this.renderErrorMessage.bind(this);
+    this.renderInfoMessage = this.renderInfoMessage.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.onClose = this.onClose.bind(this);
+    this.onBack = this.onBack.bind(this);
+  }
 
-	componentWillMount() {
+  componentWillMount () {
 		/*TEMPLATE_CREATED_CODE*/
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount () {
 		/*TEMPLATE_DESTROYED_CODE*/
-	}
+  }
 
-	componentDidMount() {
+  componentDidMount () {
 		/*TEMPLATE_RENDERED_CODE*/
 
-		$("select[data-role='tagsinput']").tagsinput();
-		$(".bootstrap-tagsinput").addClass("form-control");
-	}
+    $("select[data-role='tagsinput']").tagsinput();
+    $('.bootstrap-tagsinput').addClass('form-control');
+  }
 
-	renderErrorMessage() {
-		return(
+  renderErrorMessage () {
+    return(
 	<div className="alert alert-warning">
 		{this.state.adminUsersEditPageEditFormErrorMessage}
 	</div>
-);
-	}
+    );
+  }
 
-	renderInfoMessage() {
-		return(
+  renderInfoMessage () {
+    return(
 	<div className="alert alert-success">
 		{this.state.adminUsersEditPageEditFormInfoMessage}
 	</div>
-);
-	}
+    );
+  }
 
-	onSubmit(e) {
-		e.preventDefault();
-		this.setState({ adminUsersEditPageEditFormInfoMessage: "" });
-		this.setState({ adminUsersEditPageEditFormErrorMessage: "" });
+  onSubmit (e) {
+    e.preventDefault();
+    this.setState({ adminUsersEditPageEditFormInfoMessage: '' });
+    this.setState({ adminUsersEditPageEditFormErrorMessage: '' });
 
-		var self = this;
-		var $form = $(e.target);
+    var self = this;
+    var $form = $(e.target);
 
-		function submitAction(result, msg) {
-			var adminUsersEditPageEditFormMode = "update";
-			if(!$("#admin-users-edit-page-edit-form").find("#form-cancel-button").length) {
-				switch(adminUsersEditPageEditFormMode) {
-					case "insert": {
-						$form[0].reset();
-					}; break;
+    function submitAction (result, msg) {
+      var adminUsersEditPageEditFormMode = 'update';
+      if(!$('#admin-users-edit-page-edit-form').find('#form-cancel-button').length) {
+        switch(adminUsersEditPageEditFormMode) {
+          case 'insert': {
+            $form[0].reset();
+          }
+            break;
+          case 'update': {
+            var message = msg || 'Saved.';
+            self.setState({ adminUsersEditPageEditFormInfoMessage: message });
+          }
+            break;
+        }
+      }
 
-					case "update": {
-						var message = msg || "Saved.";
-						self.setState({ adminUsersEditPageEditFormInfoMessage: message });
-					}; break;
-				}
-			}
+      FlowRouter.go('admin.users', objectUtils.mergeObjects(FlowRouter.current().params, {}));
+    }
 
-			FlowRouter.go("admin.users", objectUtils.mergeObjects(FlowRouter.current().params, {}));
-		}
+    function errorAction (msg) {
+      msg = msg || '';
+      var message = msg.message || msg || 'Error.';
+      self.setState({ adminUsersEditPageEditFormErrorMessage: message });
+    }
 
-		function errorAction(msg) {
-			msg = msg || "";
-			var message = msg.message || msg || "Error.";
-			self.setState({ adminUsersEditPageEditFormErrorMessage: message });
-		}
-
-		formUtils.validateForm(
+    formUtils.validateForm(
 			$form,
-			function(fieldName, fieldValue) {
+			function (fieldName, fieldValue) {
 
-			},
-			function(msg) {
+},
+			function (msg) {
 
-			},
-			function(values) {
-				
+},
+			function (values) {
 
-				Meteor.call("updateUserAccount", self.props.data.admin_user._id, values, function(e, r) { if(e) errorAction(e); else submitAction(r); });
-			}
+
+  Meteor.call('updateUserAccount', self.props.data.admin_user._id, values, function (e, r) { if(e) errorAction(e); else submitAction(r); });
+}
 		);
 
-		return false;
-	}
+    return false;
+  }
 
-	onCancel(e) {
-		e.preventDefault();
-		self = this;
-		
+  onCancel (e) {
+    e.preventDefault();
+    self = this;
 
-		FlowRouter.go("admin.users", objectUtils.mergeObjects(FlowRouter.current().params, {}));
-	}
 
-	onClose(e) {
-		e.preventDefault();
-		self = this;
+    FlowRouter.go('admin.users', objectUtils.mergeObjects(FlowRouter.current().params, {}));
+  }
+
+  onClose (e) {
+    e.preventDefault();
+    self = this;
 
 		/*CLOSE_REDIRECT*/
-	}
+  }
 
-	onBack(e) {
-		e.preventDefault();
-		self = this;
+  onBack (e) {
+    e.preventDefault();
+    self = this;
 
 		/*BACK_REDIRECT*/
-	}
+  }
 
-	render() {
-		return (
+  render () {
+    return (
 	<div id="admin-users-edit-page-edit-form" className="">
 		<h2 id="component-title">
 			<span id="component-title-icon" className="">
@@ -242,19 +242,19 @@ export class AdminUsersEditPageEditForm extends Component {
 				<div className="input-div">
 					<div className="radio">
 						<label>
-							<input type="radio" defaultValue="user" name="roles" data-type="array" defaultChecked={formUtils.itemIsChecked(this.props.data.admin_user.roles, "user")} />
+							<input type="radio" defaultValue="user" name="roles" data-type="array" defaultChecked={formUtils.itemIsChecked(this.props.data.admin_user.roles, 'user')} />
 							User
 						</label>
 					</div>
 					<div className="radio">
 						<label>
-							<input type="radio" defaultValue="admin" name="roles" data-type="array" defaultChecked={formUtils.itemIsChecked(this.props.data.admin_user.roles, "admin")} />
+							<input type="radio" defaultValue="admin" name="roles" data-type="array" defaultChecked={formUtils.itemIsChecked(this.props.data.admin_user.roles, 'admin')} />
 							Admin
 						</label>
 					</div>
 					<div className="radio">
 						<label>
-							<input type="radio" defaultValue="blocked" name="roles" data-type="array" defaultChecked={formUtils.itemIsChecked(this.props.data.admin_user.roles, "blocked")} />
+							<input type="radio" defaultValue="blocked" name="roles" data-type="array" defaultChecked={formUtils.itemIsChecked(this.props.data.admin_user.roles, 'blocked')} />
 							Blocked
 						</label>
 					</div>
@@ -275,6 +275,6 @@ export class AdminUsersEditPageEditForm extends Component {
 			</div>
 		</form>
 	</div>
-);
-	}
+    );
+  }
 }
