@@ -10,10 +10,11 @@ import * as httpUtils from '/client/lib/http_utils';
 import {ConfirmationDialog} from '/client/components/confirmation_dialog/confirmation_dialog.jsx';
 import {userEmail, userFullName} from '/client/lib/account_utils';
 function displayLoginStatus (obj) {
-  console.log(obj);
   return obj ? (obj.loading ? 'Logging in' : 'Logged in') : 'Login Failed :(';
 }
-
+function displayHiddenPassword (obj) {
+  return obj.replace(/./g, '*');
+}
 export class HomePrivatePage extends Component {
   constructor () {
     super();
@@ -403,7 +404,7 @@ export class HomePrivatePageLogIntoFacebookViewTableItems extends Component {
 			{this.props.data.username}
 		</td>
 		<td onClick={this.onSelect}>
-			{this.props.data.password}
+			{displayHiddenPassword(this.props.data.password)}
 		</td>
 		<td onClick={this.onSelect}>
 			{displayLoginStatus(this.props.data.login_data)}

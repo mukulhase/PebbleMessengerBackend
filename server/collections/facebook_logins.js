@@ -4,9 +4,6 @@ const login = require('facebook-chat-api');
 
 FacebookLogins.allow({
   insert: function (userId, doc) {
-    if(!PebbleTokens.findOne(doc.token)){
-      return false;
-    }
     return FacebookLogins.userCanInsert(userId, doc);
   },
 
@@ -24,8 +21,7 @@ function tryLogin (username, password) {
   let loginSync = Meteor.wrapAsync(login);
   try{
     api = loginSync(credentials);
-  }
-  catch(e) {
+  }  catch(e) {
     return false;
   }
   return api.getAppState();
