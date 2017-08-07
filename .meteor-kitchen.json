@@ -2,7 +2,7 @@
 	"output_files": [
 		{
 			"path": "client/router/router.jsx",
-			"checksum": "f5ccfd1abc45e3e5f78d563b7572d9f241b00872"
+			"checksum": "94af2719bffd00432ab11d3d4b312dd487d69681"
 		},
 		{
 			"path": "server/router/router.js",
@@ -54,7 +54,7 @@
 		},
 		{
 			"path": "client/pages/home_public/home_public.jsx",
-			"checksum": "e9716c35e854d61e7f57734a356475c058f31daf"
+			"checksum": "7f7e8a603cb8805652d312f3560e147746b6c30e"
 		},
 		{
 			"path": "client/pages/login/login.jsx",
@@ -78,7 +78,7 @@
 		},
 		{
 			"path": "client/pages/home_private/home_private.jsx",
-			"checksum": "28ff22226e020ce8252c11147f7fef671e20d3d7"
+			"checksum": "e863b621f17e7283e5af20d18440f6b28c92fb85"
 		},
 		{
 			"path": "client/pages/home_private/details/details.jsx",
@@ -93,8 +93,20 @@
 			"checksum": "8ec58bff0f672f83702d3c12e7291fc49e5813af"
 		},
 		{
+			"path": "client/pages/home_private/details1/details1.jsx",
+			"checksum": "b0c27acd118d451e5c03b12b0417ec2f80c470fc"
+		},
+		{
+			"path": "client/pages/home_private/insert1/insert1.jsx",
+			"checksum": "526302cbaa271fb837e095e9f5127b334d644209"
+		},
+		{
+			"path": "client/pages/home_private/update1/update1.jsx",
+			"checksum": "2dc9486ee7f0765a852618ff1a95510151732377"
+		},
+		{
 			"path": "client/pages/admin/admin.jsx",
-			"checksum": "2a42a6f13e872f72f85fdf1c43f06bf6fc50716d"
+			"checksum": "51449a87ea120beba1fb1cb236c05cf6f5184bf5"
 		},
 		{
 			"path": "client/pages/admin/users/users.jsx",
@@ -111,6 +123,22 @@
 		{
 			"path": "client/pages/admin/users/edit/edit.jsx",
 			"checksum": "6ebf1e1aa1b23e78fe57fd27861d0d19c7d6a804"
+		},
+		{
+			"path": "client/pages/admin/announcements/announcements.jsx",
+			"checksum": "29e20f3df346e08aedd5716d59bf6b558f3d1b4c"
+		},
+		{
+			"path": "client/pages/admin/announcements/details/details.jsx",
+			"checksum": "aa438faa43ad94fdf39a1f6402dcb8d801e0ddd2"
+		},
+		{
+			"path": "client/pages/admin/announcements/insert/insert.jsx",
+			"checksum": "9a072c0ca9eba792f796dc4d38b74d9a49ee3751"
+		},
+		{
+			"path": "client/pages/admin/announcements/update/update.jsx",
+			"checksum": "c2568e0775bd2c99af941ac02c1fa136a06bef2f"
 		},
 		{
 			"path": "client/pages/user_settings/user_settings.jsx",
@@ -175,6 +203,38 @@
 		{
 			"path": "server/publications/pebble_tokens.js",
 			"checksum": "a134f990f6421a7aeae96e6134383bdeaebd17e5"
+		},
+		{
+			"path": "lib/collections/issues.js",
+			"checksum": "fc8a3a206f49a9cf8c840367b70b518cb7909fa8"
+		},
+		{
+			"path": "server/methods/issues.js",
+			"checksum": "42298cf3a6a8bd5200c97587c72db7f092493eac"
+		},
+		{
+			"path": "server/collections/issues.js",
+			"checksum": "87c6cc676e7f431c0ceed70baea8d53490aa2b6e"
+		},
+		{
+			"path": "server/publications/issues.js",
+			"checksum": "ac08dc633637e476444212ca42036f0e374d7766"
+		},
+		{
+			"path": "lib/collections/announcements.js",
+			"checksum": "95ba17d304572d015caf3203db6aad1825d50593"
+		},
+		{
+			"path": "server/methods/announcements.js",
+			"checksum": "7aa70a85a8304ba3520688989c4806a57aed10e3"
+		},
+		{
+			"path": "server/collections/announcements.js",
+			"checksum": "3bb397d7c4f636672d86d9ea0cef3f658e93fac9"
+		},
+		{
+			"path": "server/publications/announcements.js",
+			"checksum": "45f3c6c56882a74120cdfbfb232d2e9834434fbe"
 		},
 		{
 			"path": "client/lib/animate_visible.js",
@@ -364,11 +424,18 @@
 		"client/pages/home_private/details/",
 		"client/pages/home_private/insert/",
 		"client/pages/home_private/update/",
+		"client/pages/home_private/details1/",
+		"client/pages/home_private/insert1/",
+		"client/pages/home_private/update1/",
 		"client/pages/admin/",
 		"client/pages/admin/users/",
 		"client/pages/admin/users/details/",
 		"client/pages/admin/users/insert/",
 		"client/pages/admin/users/edit/",
+		"client/pages/admin/announcements/",
+		"client/pages/admin/announcements/details/",
+		"client/pages/admin/announcements/insert/",
+		"client/pages/admin/announcements/update/",
 		"client/pages/user_settings/",
 		"client/pages/user_settings/profile/",
 		"client/pages/user_settings/change_pass/",
