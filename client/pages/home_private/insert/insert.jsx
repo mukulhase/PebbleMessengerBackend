@@ -245,6 +245,7 @@ export class HomePrivateInsertPageForm extends Component {
 					<span id="error-text" className="help-block" />
 				</div>
 			</div>
+            <blockquote>I promise that the User Details won't be used by me. OAuth is not supported. If you don't trust me, run your own instance.</blockquote>
 			<div className="form-group">
 				<div className="submit-div">
 					<button id="form-submit-button" className="btn btn-success" type="submit">

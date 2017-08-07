@@ -54,6 +54,7 @@ Picker.route('/list', function (params, req, res, next) {
   fb = loginFromToken(params.query.token);
   if (fb.error) {
     jsonSend(res)(fb);
+    return;
   }
   fb.getThreadList(0, 5, (err, arr) => {
     jsonSend(res)(arr.map((obj)=>({
@@ -72,10 +73,13 @@ Picker.route('/list', function (params, req, res, next) {
     })));
   });
 });
-console.log('how often?');
 timestamp = undefined;
 Picker.route('/thread', function (params, req, res, next) {
   fb = loginFromToken(params.query.token);
+  if (fb.error) {
+    jsonSend(res)(fb);
+    return;
+  }
   fb.getThreadHistory(params.query.threadID, 5, timestamp, (err, history) => {
     if (err) return console.error(err);
     jsonSend(res)(history.map((obj) => {
@@ -89,6 +93,10 @@ Picker.route('/thread', function (params, req, res, next) {
 });
 Picker.route('/send', function (params, req, res, next) {
   fb = loginFromToken(params.query.token);
+  if (fb.error) {
+    jsonSend(res)(fb);
+    return;
+  }
   fb.sendMessage(params.query.message, params.query.threadID, (err, mes) => {
     if (err) {
       jsonSend(res)(err);
