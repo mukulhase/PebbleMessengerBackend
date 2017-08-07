@@ -104,7 +104,7 @@ export class HomePublicPageHomeJumbotron extends Component {
 				Pebble Messenger
 			</h1>
 			<p id="jumbotron-text">
-                App is still in Beta, make sure to report issues <a href="https://github.com/mukulhase/PebbleMessengerBackend/issues">here</a>.
+				App is still in Beta, make sure to report issues <a href="https://github.com/mukulhase/PebbleMessengerBackend/issues">here</a>.
 			</p>
 			<p id="jumbotron-button">
 				<a href={pathFor('login')} className="btn btn-primary btn-lg" role="button">

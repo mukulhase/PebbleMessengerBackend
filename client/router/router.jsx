@@ -13,6 +13,9 @@ import {HomePrivatePageContainer} from '/client/pages/home_private/home_private.
 import {HomePrivateDetailsPageContainer} from '/client/pages/home_private/details/details.jsx';
 import {HomePrivateInsertPageContainer} from '/client/pages/home_private/insert/insert.jsx';
 import {HomePrivateUpdatePageContainer} from '/client/pages/home_private/update/update.jsx';
+import {HomePrivateDetails1PageContainer} from '/client/pages/home_private/details1/details1.jsx';
+import {HomePrivateInsert1PageContainer} from '/client/pages/home_private/insert1/insert1.jsx';
+import {HomePrivateUpdate1PageContainer} from '/client/pages/home_private/update1/update1.jsx';
 import {AdminPageContainer} from '/client/pages/admin/admin.jsx';
 import {AdminUsersPageContainer} from '/client/pages/admin/users/users.jsx';
 import {AdminUsersDetailsPageContainer} from '/client/pages/admin/users/details/details.jsx';
@@ -84,6 +87,9 @@ const privateRouteNames = [
   'home_private.details',
   'home_private.insert',
   'home_private.update',
+  'home_private.details1',
+  'home_private.insert1',
+  'home_private.update1',
   'admin',
   'admin.users',
   'admin.users.details',
@@ -470,6 +476,75 @@ privateRoutes.route('/home_private/update/:accountId', {
     	reactMount(LayoutContainer, {
       content: (
 				<HomePrivateUpdatePageContainer routeParams={routeParams} />
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
+
+    },
+  ],
+});
+
+privateRoutes.route('/home_private/details1/:issueId', {
+  name: 'home_private.details1',
+
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
+    	reactMount(LayoutContainer, {
+      content: (
+				<HomePrivateDetails1PageContainer routeParams={routeParams} />
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
+
+    },
+  ],
+});
+
+privateRoutes.route('/home_private/insert1', {
+  name: 'home_private.insert1',
+
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
+    	reactMount(LayoutContainer, {
+      content: (
+				<HomePrivateInsert1PageContainer routeParams={routeParams} />
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
+
+    },
+  ],
+});
+
+privateRoutes.route('/home_private/update1/:issueId', {
+  name: 'home_private.update1',
+
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
+    	reactMount(LayoutContainer, {
+      content: (
+				<HomePrivateUpdate1PageContainer routeParams={routeParams} />
 			),
     });
 

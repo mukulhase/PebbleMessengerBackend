@@ -4,6 +4,8 @@ import {createContainer} from 'meteor/react-meteor-data';
 import {pathFor, menuItemClass} from '/client/lib/router_utils';
 import {Loading} from '/client/pages/loading/loading.jsx';
 import {FacebookLogins} from '/lib/collections/facebook_logins.js';
+import {Issues} from '/lib/collections/issues.js';
+import {Announcements} from '/lib/collections/announcements.js';
 import * as objectUtils from '/lib/utils/object_utils';
 import * as dateUtils from '/lib/utils/date_utils';
 import * as httpUtils from '/client/lib/http_utils';
@@ -15,6 +17,8 @@ function displayLoginStatus (obj) {
 function displayHiddenPassword (obj) {
   return obj.replace(/./g, '*');
 }
+
+
 export class HomePrivatePage extends Component {
   constructor () {
     super();
@@ -54,7 +58,9 @@ export class HomePrivatePage extends Component {
 					</div>
 				</div>
 			</div>
-			<HomePrivatePageLogIntoFacebook data={this.props.data} routeParams={this.props.routeParams} />
+          <HomePrivatePageAnnouncements data={this.props.data} routeParams={this.props.routeParams} />
+          <HomePrivatePageLogIntoFacebook data={this.props.data} routeParams={this.props.routeParams} />
+          <HomePrivatePageIssues data={this.props.data} routeParams={this.props.routeParams} />
 		</div>
 	</div>
     );
@@ -68,6 +74,8 @@ export const HomePrivatePageContainer = createContainer(function (props) {
 
     var subs = [
       Meteor.subscribe('account_list'),
+      Meteor.subscribe('issue_list'),
+      Meteor.subscribe('announcements'),
     ];
     var ready = true;
     _.each(subs, function (sub) {
@@ -83,7 +91,9 @@ export const HomePrivatePageContainer = createContainer(function (props) {
 
     data = {
 
-      account_list: FacebookLogins.find({}, {}).fetch(),
+      account_list:  FacebookLogins.find({}, {}).fetch(),
+      issue_list:    Issues.find({}, {}).fetch(),
+      announcements: Announcements.find({}, {}).fetch(),
     };
 
 
@@ -249,6 +259,28 @@ export class HomePrivatePageLogIntoFacebookView extends Component {
 })}
 			</tbody>
 		</table>
+		<table id="dataview-table" className="table table-striped table-hover">
+			<thead id="dataview-table-header">
+				<tr id="dataview-table-header-row">
+					<th className="th-sortable" data-sort="Issue" onClick={this.onSort}>
+						&nbsp;
+					</th>
+					<th>
+						&nbsp;
+					</th>
+					<th>
+						&nbsp;
+					</th>
+				</tr>
+			</thead>
+			<tbody id="dataview-table-items">
+				{this.props.data.issue_list.map(function (item) {
+  return(
+				<HomePrivatePageIssuesViewTableItems key={item._id} data={item} routeParams={self.props.routeParams} onDelete={self.onDelete} />
+  );
+})}
+			</tbody>
+		</table>
 	</div>
     );
   }
@@ -404,8 +436,8 @@ export class HomePrivatePageLogIntoFacebookViewTableItems extends Component {
 			{this.props.data.username}
 		</td>
 		<td onClick={this.onSelect}>
-			{displayHiddenPassword(this.props.data.password)}
-		</td>
+            {displayHiddenPassword(this.props.data.password)}
+        </td>
 		<td onClick={this.onSelect}>
 			{displayLoginStatus(this.props.data.login_data)}
 		</td>
@@ -421,6 +453,336 @@ export class HomePrivatePageLogIntoFacebookViewTableItems extends Component {
 			</span>
 		</td>
 	</tr>
+    );
+  }
+}
+export class HomePrivatePageIssues extends Component {
+  constructor () {
+    super();
+  }
+
+  componentWillMount () {
+		/*TEMPLATE_CREATED_CODE*/
+  }
+
+  componentWillUnmount () {
+		/*TEMPLATE_DESTROYED_CODE*/
+  }
+
+  componentDidMount () {
+		/*TEMPLATE_RENDERED_CODE*/
+  }
+
+  render () {
+    return (
+	<section className="">
+		<div className="container">
+			<div className="row">
+				<div className="col-lg-12" id="content">
+					<HomePrivatePageIssuesView data={this.props.data} routeParams={this.props.routeParams} />
+				</div>
+			</div>
+		</div>
+	</section>
+    );
+  }
+}
+export class HomePrivatePageIssuesView extends Component {
+  constructor () {
+    super();
+    this.state = {
+      HomePrivatePageIssuesViewSearchString: '',
+      HomePrivatePageIssuesViewSortBy:       '',
+      HomePrivatePageIssuesViewStyle:        'table',
+    };
+
+    this.isNotEmpty = this.isNotEmpty.bind(this);
+    this.isNotFound = this.isNotFound.bind(this);
+    this.onInsert = this.onInsert.bind(this);
+    this.onSearchInputChange = this.onSearchInputChange.bind(this);
+    this.onSearch = this.onSearch.bind(this);
+    this.onSort = this.onSort.bind(this);
+    this.exportData = this.exportData.bind(this);
+    this.onExportCSV = this.onExportCSV.bind(this);
+    this.onExportTSV = this.onExportTSV.bind(this);
+    this.onExportJSON = this.onExportJSON.bind(this);
+    this.renderTable = this.renderTable.bind(this);
+    this.renderList = this.renderList.bind(this);
+    this.renderBlog = this.renderBlog.bind(this);
+    this.renderCards = this.renderCards.bind(this);
+    this.renderData = this.renderData.bind(this);
+  }
+
+  componentWillMount () {
+		/*TEMPLATE_CREATED_CODE*/
+  }
+
+  componentWillUnmount () {
+		/*TEMPLATE_DESTROYED_CODE*/
+  }
+
+  componentDidMount () {
+		/*TEMPLATE_RENDERED_CODE*/
+  }
+
+  isNotEmpty () {
+    return this.props.data.issue_list && this.props.data.issue_list.length > 0;
+  }
+
+  isNotFound () {
+    return this.props.data.issue_list && this.props.data.issue_list.length == 0 && this.state.HomePrivatePageIssuesViewSearchString;
+  }
+
+  onInsert (e) {
+    FlowRouter.go('home_private.insert1', objectUtils.mergeObjects(FlowRouter.current().params, {}));
+  }
+
+  onSearchInputChange (e) {
+    this.setState({HomePrivatePageIssuesViewSearchString: e.target.value});
+  }
+
+  onSearch (e) {
+    e.preventDefault();
+    let form = $(e.currentTarget).parent();
+    let searchInput = form.find('#dataview-search-input');
+    searchInput.focus();
+    let searchString = searchInput.val();
+    this.setState({ HomePrivatePageIssuesViewSearchString: searchString });
+  }
+
+  onSort (e) {
+    e.preventDefault();
+    let sortBy = $(e.currentTarget).attr('data-sort');
+    this.setState({ HomePrivatePageIssuesViewSortBy: sortBy });
+  }
+
+  exportData (data, fileType) {
+    let exportFields = [];
+
+    let str = objectUtils.exportArrayOfObjects(data, exportFields, fileType);
+
+    let filename = 'export.' + fileType;
+
+    httpUtils.downloadLocalResource(str, filename, 'application/octet-stream');
+  }
+
+  onExportCSV (e) {
+    this.exportData(this.props.data.issue_list, 'csv');
+  }
+
+  onExportTSV (e) {
+    this.exportData(this.props.data.issue_list, 'tsv');
+  }
+
+  onExportJSON (e) {
+    this.exportData(this.props.data.issue_list, 'json');
+  }
+
+  renderTable () {
+    var self = this;
+    return (
+	<div id="dataview-data-table">
+	</div>
+    );
+  }
+
+  renderList () {
+    var self = this;
+    return (
+	<div id="dataview-data-list">
+	</div>
+    );
+  }
+
+  renderBlog () {
+    var self = this;
+    return (
+	<div id="dataview-data-blog">
+	</div>
+    );
+  }
+
+  renderCards () {
+    var self = this;
+    return (
+	<div id="dataview-data-cards">
+	</div>
+    );
+  }
+
+  renderData () {
+    let viewStyle = this.state.HomePrivatePageIssuesViewStyle || 'table';
+    switch(viewStyle) {
+      case 'table': return this.renderTable(); break;
+      case 'blog': return this.renderBlog(); break;
+      case 'list' : return this.renderList(); break;
+      case 'cards': return this.renderCards(); break;
+      default: return this.renderTable();
+    }
+  }
+
+  render () {
+    return (
+	<div id="home-private-page-issues-view" className="">
+		<h2 id="component-title">
+			<span id="component-title-icon" className="">
+			</span>
+			Issues/Feature Requests
+		</h2>
+		<form id="dataview-controls" className="form-inline">
+			<div id="dataview-controls-insert" className="form-group {{insertButtonClass}}">
+				<button type="button" id="dataview-insert-button" className="btn btn-success" onClick={this.onInsert}>
+					<span className="fa fa-plus">
+					</span>
+					Add new
+				</button>
+			</div>
+			<div id="dataview-controls-search">
+				{
+				<div id="dataview-controls-search-group" className="form-group">
+					<label className="sr-only" htmlFor="search">
+						Search
+					</label>
+					<input type="text" className="form-control" id="dataview-search-input" placeholder="Search" name="search" value={this.state.HomePrivatePageIssuesViewSearchString} onChange={this.onSearchInputChange} autoFocus="true" />
+					<button type="submit" id="dataview-search-button" className="btn btn-primary" onClick={this.onSearch}>
+						<span className="fa fa-search">
+						</span>
+					</button>
+				</div>
+				}
+			</div>
+		</form>
+		{this.isNotEmpty() ? this.renderData() : (this.isNotFound() ?
+		<div className="alert alert-warning">
+			{'"' + this.state.HomePrivatePageIssuesViewSearchString + '" not found.'}
+		</div>
+		:
+		<div className="alert alert-info">
+			Empty.
+		</div>
+		)}
+	</div>
+    );
+  }
+}
+export class HomePrivatePageIssuesViewTableItems extends Component {
+  constructor () {
+    super();
+    this.onToggle = this.onToggle.bind(this);
+    this.onEdit = this.onEdit.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+    this.onSelect = this.onSelect.bind(this);
+  }
+
+  onToggle (e) {
+    e.stopPropagation();
+    let self = this;
+    let itemId = this.props.data._id;
+    let toggleField = $(e.currentTarget).attr('data-field');
+
+    let data = {};
+    data[toggleField] = !this.props.data[toggleField];
+
+    Meteor.call('issuesUpdate', itemId, data, function (err, res) {
+      if(err) {
+        alert(err);
+      }
+    });
+  }
+
+  onEdit (e) {
+    e.stopPropagation();
+    let self = this;
+    let itemId = this.props.data._id;
+    FlowRouter.go('home_private.update1', objectUtils.mergeObjects(FlowRouter.current().params, {issueId: this.props.data._id}));
+  }
+
+  onDelete (e) {
+    e.stopPropagation();
+    let self = this;
+    let itemId = this.props.data._id;
+    ConfirmationDialog({
+      message: 'Delete? Are you sure?',
+      title:   'Delete',
+      onYes:   function (id) {
+        Meteor.call('issuesRemove', id, function (err, res) {
+          if(err) {
+            alert(err);
+          }
+        });
+      },
+      onNo:              null,
+      onCancel:          null,
+      buttonYesTitle:    'Yes',
+      buttonNoTitle:     'No',
+      buttonCancelTitle: null,
+      showCancelButton:  false,
+      payload:           itemId,
+    });
+  }
+
+  onSelect (e) {
+    e.stopPropagation();
+    let self = this;
+    let itemId = this.props.data._id;
+
+		/*ON_ITEM_CLICKED_CODE*/
+    FlowRouter.go('home_private.details1', objectUtils.mergeObjects(FlowRouter.current().params, {issueId: this.props.data._id}));
+  }
+
+  render () {
+    return(
+	<tr id="dataview-table-items-row">
+		<td onClick={this.onSelect}>
+			{this.props.data.Issue}
+		</td>
+		<td className="td-icon">
+			<span id="edit-button" className="fa fa-pencil {{editButtonClass}}" title="Edit" onClick={this.onEdit}>
+			</span>
+		</td>
+		<td className="td-icon">
+			<span id="delete-button" className="fa fa-trash-o {{deleteButtonClass}}" title="Delete" onClick={this.onDelete}>
+			</span>
+		</td>
+	</tr>
+    );
+  }
+}
+export class HomePrivatePageAnnouncements extends Component {
+  constructor () {
+    super();
+  }
+
+  componentWillMount () {
+		/*TEMPLATE_CREATED_CODE*/
+  }
+
+  componentWillUnmount () {
+		/*TEMPLATE_DESTROYED_CODE*/
+  }
+
+  componentDidMount () {
+		/*TEMPLATE_RENDERED_CODE*/
+  }
+
+  render () {
+    return (
+	<div className="jumbotron ">
+		<div id="content" className="container">
+			<h1 id="component-title">
+				<span id="component-title-icon" className="">
+				</span>
+              Announcements
+			</h1>
+			<p id="jumbotron-text">
+              <ul>
+                {this.props.data.announcements}
+              </ul>
+			</p>
+			<div id="home-private-page-announcements-announcement" className="">
+			</div>
+		</div>
+	</div>
     );
   }
 }
