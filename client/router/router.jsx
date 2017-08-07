@@ -21,6 +21,10 @@ import {AdminUsersPageContainer} from '/client/pages/admin/users/users.jsx';
 import {AdminUsersDetailsPageContainer} from '/client/pages/admin/users/details/details.jsx';
 import {AdminUsersInsertPageContainer} from '/client/pages/admin/users/insert/insert.jsx';
 import {AdminUsersEditPageContainer} from '/client/pages/admin/users/edit/edit.jsx';
+import {AdminAnnouncementsPageContainer} from '/client/pages/admin/announcements/announcements.jsx';
+import {AdminAnnouncementsDetailsPageContainer} from '/client/pages/admin/announcements/details/details.jsx';
+import {AdminAnnouncementsInsertPageContainer} from '/client/pages/admin/announcements/insert/insert.jsx';
+import {AdminAnnouncementsUpdatePageContainer} from '/client/pages/admin/announcements/update/update.jsx';
 import {UserSettingsPageContainer} from '/client/pages/user_settings/user_settings.jsx';
 import {UserSettingsProfilePageContainer} from '/client/pages/user_settings/profile/profile.jsx';
 import {UserSettingsChangePassPageContainer} from '/client/pages/user_settings/change_pass/change_pass.jsx';
@@ -95,6 +99,10 @@ const privateRouteNames = [
   'admin.users.details',
   'admin.users.insert',
   'admin.users.edit',
+  'admin.announcements',
+  'admin.announcements.details',
+  'admin.announcements.insert',
+  'admin.announcements.update',
   'user_settings',
   'user_settings.profile',
   'user_settings.change_pass',
@@ -115,6 +123,10 @@ const roleMap = [
 	{ route: 'admin.users.details',	roles: ['admin'] },
 	{ route: 'admin.users.insert',	roles: ['admin'] },
 	{ route: 'admin.users.edit',	roles: ['admin'] },
+	{ route: 'admin.announcements',	roles: ['admin'] },
+	{ route: 'admin.announcements.details',	roles: ['admin'] },
+	{ route: 'admin.announcements.insert',	roles: ['admin'] },
+	{ route: 'admin.announcements.update',	roles: ['admin'] },
 	{ route: 'user_settings',	roles: ['user', 'admin'] },
 	{ route: 'user_settings.profile',	roles: ['user', 'admin'] },
 	{ route: 'user_settings.change_pass',	roles: ['user', 'admin'] },
@@ -665,6 +677,106 @@ privateRoutes.route('/admin/users/edit/:userId', {
       content: (
 				<AdminPageContainer routeParams={routeParams} subcontent={
 					<AdminUsersEditPageContainer routeParams={routeParams} />
+				} />
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
+
+    },
+  ],
+});
+
+privateRoutes.route('/admin/announcements', {
+  name: 'admin.announcements',
+
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
+    	reactMount(LayoutContainer, {
+      content: (
+				<AdminPageContainer routeParams={routeParams} subcontent={
+					<AdminAnnouncementsPageContainer routeParams={routeParams} />
+				} />
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
+
+    },
+  ],
+});
+
+privateRoutes.route('/admin/announcements/details/:announcementId', {
+  name: 'admin.announcements.details',
+
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
+    	reactMount(LayoutContainer, {
+      content: (
+				<AdminPageContainer routeParams={routeParams} subcontent={
+					<AdminAnnouncementsDetailsPageContainer routeParams={routeParams} />
+				} />
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
+
+    },
+  ],
+});
+
+privateRoutes.route('/admin/announcements/insert', {
+  name: 'admin.announcements.insert',
+
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
+    	reactMount(LayoutContainer, {
+      content: (
+				<AdminPageContainer routeParams={routeParams} subcontent={
+					<AdminAnnouncementsInsertPageContainer routeParams={routeParams} />
+				} />
+			),
+    });
+
+  },
+  triggersExit: [
+    function (context, redirect) {
+
+    },
+  ],
+});
+
+privateRoutes.route('/admin/announcements/update/:announcementId', {
+  name: 'admin.announcements.update',
+
+  triggersEnter: [
+    function (context, redirect, stop) {
+
+    },
+  ],
+  action: function (routeParams, routeQuery) {
+    	reactMount(LayoutContainer, {
+      content: (
+				<AdminPageContainer routeParams={routeParams} subcontent={
+					<AdminAnnouncementsUpdatePageContainer routeParams={routeParams} />
 				} />
 			),
     });

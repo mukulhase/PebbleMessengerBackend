@@ -775,9 +775,7 @@ export class HomePrivatePageAnnouncements extends Component {
               Announcements
 			</h1>
 			<p id="jumbotron-text">
-              <ul>
-                {this.props.data.announcements}
-              </ul>
+                {this.props.data.announcements.map(obj=><li key={obj.Title}><u><b>{obj.Title}</b></u>: {obj.Description}</li>)}
 			</p>
 			<div id="home-private-page-announcements-announcement" className="">
 			</div>

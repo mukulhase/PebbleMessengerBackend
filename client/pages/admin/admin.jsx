@@ -115,6 +115,13 @@ export class AdminPageSideMenu extends Component {
 				</span>
 			</a>
 		</li>
+		<li id="menu-item-simple" className={menuItemClass('admin.announcements')}>
+			<a href={pathFor('admin.announcements', {})}>
+				<span className="item-title">
+					Announcements
+				</span>
+			</a>
+		</li>
 	</ul>
     );
   }
