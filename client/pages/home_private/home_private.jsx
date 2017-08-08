@@ -12,7 +12,7 @@ import * as httpUtils from '/client/lib/http_utils';
 import {ConfirmationDialog} from '/client/components/confirmation_dialog/confirmation_dialog.jsx';
 import {userEmail, userFullName} from '/client/lib/account_utils';
 function displayLoginStatus (obj) {
-  return obj ? (obj.loading ? 'Logging in' : 'Logged in') : 'Login Failed :(';
+  return ( !(obj.status === false) ) ? (obj.loading ? 'Logging in' : 'Logged in') : <a href="#" data-toggle="tooltip" title={obj.error + " Either wrong user/pass, Or Facebook needs to make sure it's you, go to facebook and confirm that you logged in"}>Login Failed :( : {obj.error} </a>;
 }
 function displayHiddenPassword (obj) {
   return obj.replace(/./g, '*');
@@ -326,7 +326,7 @@ export class HomePrivatePageLogIntoFacebookView extends Component {
 		<h2 id="component-title">
 			<span id="component-title-icon" className="">
 			</span>
-			Accounts
+			Accounts(Pebble Watches)
 		</h2>
 		<form id="dataview-controls" className="form-inline">
 			<div id="dataview-controls-insert" className="form-group {{insertButtonClass}}">

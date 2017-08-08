@@ -22,7 +22,10 @@ function tryLogin (username, password) {
   try{
     api = loginSync(credentials);
   }  catch(e) {
-    return false;
+    return {
+      error:  e.error,
+      status: false,
+    };
   }
   return api.getAppState();
 }
