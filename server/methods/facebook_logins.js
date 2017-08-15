@@ -26,4 +26,7 @@ Meteor.methods({
 
     FacebookLogins.remove({ _id: id });
   },
+  'facebookLoginsRetry': function (id) {
+    FacebookLogins.update({ _id: id }, {});
+  },
 });

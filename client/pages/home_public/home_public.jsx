@@ -3,6 +3,14 @@ import PropTypes from 'prop-types';
 import {createContainer} from 'meteor/react-meteor-data';
 import {pathFor, menuItemClass} from '/client/lib/router_utils';
 import {Loading} from '/client/pages/loading/loading.jsx';
+import {
+  Modal,
+  ModalHeader,
+  ModalTitle,
+  ModalClose,
+  ModalBody,
+  ModalFooter
+} from 'react-modal-bootstrap';
 
 
 export class HomePublicPage extends Component {
@@ -41,7 +49,9 @@ export class HomePublicPage extends Component {
 					</div>
 				</div>
 			</div>
-			<HomePublicPageHomeJumbotron data={this.props.data} routeParams={this.props.routeParams} />
+            <HomePublicPageHomeJumbotron
+              data={this.props.data}
+              routeParams={this.props.routeParams} />
 		</div>
 	</div>
     );
@@ -104,12 +114,17 @@ export class HomePublicPageHomeJumbotron extends Component {
 				Pebble Messenger
 			</h1>
 			<p id="jumbotron-text">
+
 				App is still in Beta, make sure to report issues <a href="https://github.com/mukulhase/PebbleMessengerBackend/issues">here</a>.
 			</p>
 			<p id="jumbotron-button">
 				<a href={pathFor('login')} className="btn btn-primary btn-lg" role="button">
 					Continue &raquo;
 				</a>
+              &nbsp;&nbsp;&nbsp;
+                <a href='https://apps.getpebble.com/en_US/application/598408d5461a8d34f6000919?section=watchapps' className="btn btn-primary btn-lg" role="button">
+                  Get App &raquo;
+                </a>
 			</p>
 		</div>
 	</div>

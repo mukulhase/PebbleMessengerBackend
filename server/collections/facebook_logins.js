@@ -22,6 +22,14 @@ function tryLogin (username, password) {
   try{
     api = loginSync(credentials);
   }  catch(e) {
+    switch (e.error) {
+      case 'login-approval':
+        e.error = '2-Factor not supported yet. Please wait for the next update';
+        //e.continue();
+        break;
+      default:
+        //console.error(e);
+    }
     return {
       error:  e.error,
       status: false,

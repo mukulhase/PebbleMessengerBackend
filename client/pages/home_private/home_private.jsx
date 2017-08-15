@@ -11,8 +11,11 @@ import * as dateUtils from '/lib/utils/date_utils';
 import * as httpUtils from '/client/lib/http_utils';
 import {ConfirmationDialog} from '/client/components/confirmation_dialog/confirmation_dialog.jsx';
 import {userEmail, userFullName} from '/client/lib/account_utils';
+import moment from 'moment';
 function displayLoginStatus (obj) {
-  return ( !(obj.status === false) ) ? (obj.loading ? 'Logging in' : 'Logged in') : <a href="#" data-toggle="tooltip" title={obj.error + " Either wrong user/pass, Or Facebook needs to make sure it's you, go to facebook and confirm that you logged in"}>Login Failed :( : {obj.error} </a>;
+  return ( !(obj.status === false) ) ?
+    (obj.loading ? 'Logging in' : <span id="retry-button" className="fa fa-check-circle MeteorToys-color-green">Logged In</span>) :
+    <a href="#" data-toggle="tooltip" title={obj.error + " Either wrong user/pass, Or Facebook needs to make sure it's you, go to facebook and confirm that you logged in"}>Login Failed :( : {obj.error} </a>;
 }
 function displayHiddenPassword (obj) {
   return obj.replace(/./g, '*');
@@ -259,28 +262,6 @@ export class HomePrivatePageLogIntoFacebookView extends Component {
 })}
 			</tbody>
 		</table>
-		<table id="dataview-table" className="table table-striped table-hover">
-			<thead id="dataview-table-header">
-				<tr id="dataview-table-header-row">
-					<th className="th-sortable" data-sort="Issue" onClick={this.onSort}>
-						&nbsp;
-					</th>
-					<th>
-						&nbsp;
-					</th>
-					<th>
-						&nbsp;
-					</th>
-				</tr>
-			</thead>
-			<tbody id="dataview-table-items">
-				{this.props.data.issue_list.map(function (item) {
-  return(
-				<HomePrivatePageIssuesViewTableItems key={item._id} data={item} routeParams={self.props.routeParams} onDelete={self.onDelete} />
-  );
-})}
-			</tbody>
-		</table>
 	</div>
     );
   }
@@ -371,6 +352,8 @@ export class HomePrivatePageLogIntoFacebookViewTableItems extends Component {
     this.onEdit = this.onEdit.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.onSelect = this.onSelect.bind(this);
+    this.onRetry = this.onRetry.bind(this);
+
   }
 
   onToggle (e) {
@@ -420,6 +403,18 @@ export class HomePrivatePageLogIntoFacebookViewTableItems extends Component {
     });
   }
 
+  onRetry (e) {
+    e.stopPropagation()
+    let self = this;
+    let itemId = this.props.data._id;
+    Meteor.call('facebookLoginsRetry', itemId, function (err, res) {
+      if(err) {
+        alert(err);
+      }
+      alert('Retrying, please wait');
+    });
+  }
+
   onSelect (e) {
     e.stopPropagation();
     let self = this;
@@ -444,6 +439,11 @@ export class HomePrivatePageLogIntoFacebookViewTableItems extends Component {
 		<td onClick={this.onSelect}>
 			{this.props.data.pebble_token}
 		</td>
+        <td className="td-icon">
+            <span id="retry-button" className="fa fa-refresh" title="Retry" onClick={this.onRetry}>
+              &nbsp; Retry Login
+            </span>
+        </td>
 		<td className="td-icon">
 			<span id="edit-button" className="fa fa-pencil {{editButtonClass}}" title="Edit" onClick={this.onEdit}>
 			</span>
@@ -582,6 +582,28 @@ export class HomePrivatePageIssuesView extends Component {
     var self = this;
     return (
 	<div id="dataview-data-table">
+      <table id="dataview-table" className="table table-striped table-hover">
+        <thead id="dataview-table-header">
+        <tr id="dataview-table-header-row">
+          <th className="th-sortable" data-sort="Issue" onClick={this.onSort}>
+            &nbsp;
+          </th>
+          <th>
+            &nbsp;
+          </th>
+          <th>
+            &nbsp;
+          </th>
+        </tr>
+        </thead>
+        <tbody id="dataview-table-items">
+        {this.props.data.issue_list.map(function (item) {
+          return(
+            <HomePrivatePageIssuesViewTableItems key={item._id} data={item} routeParams={self.props.routeParams} onDelete={self.onDelete} />
+          );
+        })}
+        </tbody>
+      </table>
 	</div>
     );
   }
@@ -766,6 +788,7 @@ export class HomePrivatePageAnnouncements extends Component {
   }
 
   render () {
+    console.log(this.props.data.announcements);
     return (
 	<div className="jumbotron ">
 		<div id="content" className="container">
@@ -775,7 +798,7 @@ export class HomePrivatePageAnnouncements extends Component {
               Announcements
 			</h1>
 			<p id="jumbotron-text">
-                {this.props.data.announcements.map(obj=><li key={obj.Title}><u><b>{obj.Title}</b></u>: {obj.Description}</li>)}
+              {this.props.data.announcements.map(obj=><li key={obj.Title}><u><b>{obj.Title}</b></u>: {obj.Description} <span style={{float: 'right'}}>{moment(obj.createdAt).fromNow()}</span></li>)}
 			</p>
 			<div id="home-private-page-announcements-announcement" className="">
 			</div>
